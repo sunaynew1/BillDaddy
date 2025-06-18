@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Bill - BillDaddy</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        window.onload = () => {
+            lucide.createIcons();
+        };
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="bg-[#18181b] font-Funnel text-white">
+  <div class="flex flex-col md:flex-row min-h-screen">
+
+    <!-- SIDEBAR -->
+<div class="fixed top-0 left-0 h-screen w-[16%] bg-[#171717]   rounded-r-xl px-4 py-6 z-50 border-r-[0.1px] border-white/10">
+  <!-- Logo -->
+   <div class="flex items-center justify-center text-center mb-[45px] ">
+  <i data-lucide="file-text" class="w-6 h-6 flex items-center ml-2  text-[#B6F500]"></i>
+  <h1 class="text-white text-3xl font-thin font-Funnel text-center">
+    Bill<span class="text-[#B6F500]">Daddy</span>
+  </h1>
+</div>
+
+   
+  <!-- Navigation -->
+  <div class="flex flex-col gap-6 font-Funnel ">
+
+    <!-- Generate Bill Button -->
+    <a href="index.html" class="w-full p-3 rounded-xl text-black bg-[#B6F500] text-center hover:bg-[#b8f500e7] transition-all">
+      + New Bill
+    </a>
+
+    <!-- Check Bills -->
+    <a href="checkbill.html" class="w-full p-3 rounded-xl text-white flex items-center gap-2  hover:bg-[#B6F500] hover:text-black transition-all">
+      <i data-lucide="file-text" class="w-5 h-5  hover:text-black "></i> Check Bills
+    </a>
+
+    <!-- Manage Products -->
+    <a href="manageProducts.html" class="w-full p-3 rounded-xl  flex items-center gap-2 bg-[#B6F500] text-black transition-all">
+      <i data-lucide="box" class="w-5 h-5"></i> Manage Products
+    </a>
+
+    <!-- Settings -->
+    <a href="#" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+      <i data-lucide="settings" class="w-5 h-5"></i> Settings
+    </a>
+
+  </div>    
+  </div>
+
+    <!-- MAIN CONTENT -->
+    <main class=" ml-[20%] w-[80%] mr-[10%] items-center bg-[#171717] px-4 md:px-12 py-8 space-y-16">
+           
+      <!-- Add Product Section -->
+      <section class="space-y-6">
+        <div class="flex items-center gap-3">
+          <i data-lucide="box" class="w-7 h-7 text-[#B6F500]"></i>
+          <h1 class="text-3xl font-bold">Add Product</h1>
+        </div>
+
+        <div class=" rounded-3xl p-6 md:p-10 space-y-8 border border-[#2e2e33] shadow-lg">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-1">Product Name</label>
+              <input type="text" placeholder="e.g. Arhar Dal" id="NewProductName"
+                class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm focus:ring-2 focus:ring-green-500 outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-1">MRP (₹)</label>
+              <input type="number" placeholder="e.g. 120" id="NewProductMRP"
+                class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm focus:ring-2 focus:ring-green-500 outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-zinc-300 mb-1">Selling Price (₹)</label>
+              <input type="number" placeholder="e.g. 110" id="NewProductPRICE"
+                class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm focus:ring-2 focus:ring-green-500 outline-none" />
+            </div>
+          </div>
+
+          <div class="text-right">
+            <button id="NewProductAddBtn"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#B6F500] hover:bg-[#B6F500]/90 transition text-black font-medium">
+              <i data-lucide="plus" class="w-4 h-4"></i> Add Product
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Check Product Section -->
+      <section class="space-y-6">
+        <div class="flex items-center gap-3">
+          <i data-lucide="file-search" class="w-6 h-6 text-[#B6F500]"></i>
+          <h1 class="text-3xl font-bold">Check Product</h1>
+        </div>
+
+        <!-- Search -->
+        <div class="rounded-3xl p-6 md:p-10 border border-[#2e2e33] shadow-lg">
+          <h2 class="text-lg font-semibold mb-4">Search Product</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="relative">
+              <label for="searchName" class="block text-sm text-zinc-400 mb-1">Product Name</label>
+              <input type="text" id="searchName" placeholder="Enter Product Name"
+                class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none text-white" />
+              <ul id="Product-suggestion"
+                class="hidden absolute left-0 right-0 mt-1 bg-zinc-900 border border-zinc-700 rounded-xl shadow-md z-50 text-sm max-h-60 overflow-y-auto ring-1 ring-black/5"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product Table -->
+        <div class="overflow-x-auto rounded-2xl border border-[#2e2e33]">
+          <table class="min-w-full text-sm text-left">
+            <thead class="bg-zinc-800 text-zinc-400">
+              <tr>
+                <th class="px-6 py-3">Product ID</th>
+                <th class="px-6 py-3">Product Name</th>
+                <th class="px-6 py-3">MRP</th>
+                <th class="px-6 py-3">Price</th>
+                <th class="px-6 py-3"></th>
+              </tr>
+            </thead>
+            <tbody id="product-list" class="divide-y divide-zinc-700">
+              <!-- JS Injected Rows -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Load Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+
+
+    <!-- Lucide Icons -->
+    <script>
+        lucide.createIcons();
+        fetchProductData()
+        let allProducts = JSON.parse(localStorage.getItem("products"));
+        console.log(allProducts)
+
+      document.getElementById("NewProductAddBtn").addEventListener("click",async () => {
+        const name = document.getElementById("NewProductName").value
+        const mrp = document.getElementById("NewProductMRP").value
+        const price = document.getElementById("NewProductPRICE").value
+
+        await newProduct(name,mrp,price)
+                   document.getElementById("NewProductName").value   =""   
+                   document.getElementById("NewProductMRP").value  =""    
+                   document.getElementById("NewProductPRICE").value=""
+      })
+
+        function createProductSuggestionList(item, tbody) {
+            if(item.PRICE == undefined ){
+                item.PRICE=0
+            }else if(item.MRP == undefined){
+                item.MRP=0
+            }
+            const t = `
+   <tr class="bg-zinc-900 hover:bg-zinc-800 transition product-row" id='${item.productId}-tr'>
+  <td class="px-4 py-3 text-zinc-400">${item.productId}</td>
+
+  <td class="px-4 py-3">
+    <div class="relative">
+      <input type="text" placeholder="Product Name" id='${item.productId}-name' value='${item.productName}'
+        class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+    </div>
+  </td>
+
+  <td class="px-4 py-3">
+    <input type="number" placeholder="MRP" id='${item.productId}-mrp' value='${item.MRP}'
+      class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+  </td>
+
+  <td class="px-4 py-3">
+    <input type="number" placeholder="Price" id='${item.productId}-price' value='${item.PRICE}'
+      class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+  </td>
+
+
+  <!-- Remove Button -->
+  <td class="mx-0 py-3 text-center">
+    <button type="button" id='${item.productId}-delete'
+      class="text-red-500 hover:text-red-700 transition" >
+    <img src="icons8-trash-30.png"  class="w-5 h-5">
+    </button>
+  </td>
+</tr>
+      `
+            return t
+
+        }
+
+
+
+
+        function ProductSearch() {
+
+            let productName = document.getElementById("searchName")
+
+            productName.addEventListener("input", (e) => {
+                let name = e.target.value.trim()
+                let tbody = document.getElementById("product-list")
+
+                tbody.innerHTML = ""
+
+                if (name == "") {
+
+                    tbody.innerHTML = ""
+                    prodList()
+                    return;
+                } else {
+                    tbody.innerHTML = ""
+                    tbody.classList.remove("hidden")
+                }
+
+                try {
+                    const regex = new RegExp(name, "i")
+                    const matched = allProducts.filter(p => regex.test(p.productName))
+                    console.log(matched)
+                    if (matched.length === 0) {
+                        tbody.classList.add("hidden")
+                        tbody.innerHTML = ""
+                        prodList()
+                        return;
+                    } else {
+                        tbody.innerHTML = ""
+                        tbody.classList.remove("hidden")
+                    }
+
+                    matched.forEach(match => {
+
+                        tbody.insertAdjacentHTML("beforeend", createProductSuggestionList(match, tbody))
+                        //  ul.classList.remove("hidden")
+                        document.getElementById(`${match.productId}-delete`).addEventListener("click", async () => {
+                            // this.closest('.product-row').remove()
+
+                            await deleteProduct(match.productId)
+                            document.getElementById(`${match.productId}-tr`).remove()
+                            await localStorage.removeItem("products");
+                            await fetchProductData()
+                            allProducts = await JSON.parse(localStorage.getItem("products"));
+                            //    window.location.reload();
+                        })
+
+                        let debounceTimer1
+                        let debounceTimer2
+                        let debounceTimer3
+                        document.getElementById(`${match.productId}-name`).addEventListener("input", (e) => {
+
+                            let value = e.target.value.trim()
+
+                            clearTimeout(debounceTimer1)
+
+                            debounceTimer1 = setTimeout(() => {
+                                if (value != "") {
+                                    productDetailChanges(match.productId, value, match.MRP, match.PRICE)
+                                }
+                            }, 1500)
+                        })
+                        document.getElementById(`${match.productId}-mrp`).addEventListener("input", (e) => {
+
+                            let value = e.target.value.trim()
+                                 match.MRP=value
+                            clearTimeout(debounceTimer2)
+
+                            debounceTimer2 = setTimeout(() => {
+                                if (value != "") {
+                                    productDetailChanges(match.productId, match.productName, value, match.PRICE)
+                                }
+                            }, 1500)
+                        })
+                        document.getElementById(`${match.productId}-price`).addEventListener("input", (e) => {
+
+                            let value = e.target.value.trim()
+                            match.PRICE=value
+                            clearTimeout(debounceTimer3)
+                      
+                            debounceTimer3 = setTimeout( async() => {
+                                if (value != "") {
+                                  await  productDetailChanges(match.productId, match.productName, match.MRP, value)
+                              
+                                }
+                            }, 1500)
+                        })
+
+                    })
+                } catch (error) {
+                    console.log(error)
+                }
+
+            })
+        }
+        ProductSearch()
+
+
+        // function prodList() {
+        //     for (let i = 0; i < 15; i++) {
+
+        //         const t = `
+        //          <!-- Example Row -->
+        //                 <tr class="bg-zinc-900 hover:bg-zinc-800 transition" id='${allProducts[i].productId}-tr'>
+        //                     <td class="px-4 py-3 text-zinc-400">${allProducts[i].productId}</td>
+        //                     <td class="px-4 py-3">
+        //                         <div class="relative">
+        //                             <input type="text" placeholder="Product Name" value='${allProducts[i].productName}'
+        //                                 class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+        //                             <ul
+        //                                 class="suggestions hidden absolute inset-x-0 top-full mt-1 bg-zinc-900 border border-zinc-700 rounded-xl shadow-md z-50 text-sm text-white max-h-60 overflow-y-auto ring-1 ring-black/5">
+        //                             </ul>
+        //                         </div>
+        //                     </td>
+        //                     <td class="px-4 py-3">
+        //                         <input type="number" placeholder="MRP" value='${allProducts[i].MRP}'
+        //                             class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+        //                     </td>
+        //                     <td class="px-4 py-3">
+        //                         <input type="number" placeholder="Price" value='${allProducts[i].PRICE}'
+        //                             class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+        //                     </td>
+        //                      <!-- Remove Button -->
+        //                     <td class="mx-0 py-3 text-center">
+        //                         <button type="button"
+        //                         class="text-red-500 hover:text-red-700 transition" id='${allProducts[i].productId}-delete'>
+        //                         <img src="icons8-trash-30.png"  class="w-5 h-5">
+        //                         </button>
+        //                     </td>
+
+        //                 </tr>
+        // `
+        //   document.getElementById("product-list").insertAdjacentHTML("beforeend", t)
+        //   document.getElementById(`${allProducts[i].productId}-delete`).addEventListener("click" ,async () => {
+        //         // this.closest('.product-row').remove()
+        //         console.log(`${allProducts[i].productId}-tr`)
+
+        //    await deleteProduct(allProducts[i].productId)
+        //     //   document.getElementById(`${allProducts[i].productId}-tr`).remove()
+        //   await localStorage.removeItem("products");
+        //   await  fetchProductData()
+        //    allProducts = await JSON.parse(localStorage.getItem("products"));
+
+
+
+        //     })
+
+
+        //     };
+        // }
+        // prodList()
+
+        async function deleteProduct(prodName) {
+            console.log("delete clicked")
+            console.log(prodName)
+            try {
+                const req = await fetch("http://localhost:3004/api/v1/users/deleteProduct", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ prodName })
+                })
+                const data = await req.json()
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        async function fetchProductData() {
+            try {
+                const req = await fetch("http://localhost:3004/api/v1/users/check", {
+                    method: "GET"
+
+                })
+                const data = await req.json()
+                const d = data.data
+                d.sort((a, b) => {
+                    return a.productName.localeCompare(b.productName);
+                });
+                // console.log(d)
+                localStorage.setItem("products", JSON.stringify(d));
+                return data;
+            } catch (error) {
+                console.log(`error occured while fetching data : - ${error}`)
+            }
+        }
+
+        async function productDetailChanges(id, name, mrp, price) {
+            console.log(id, name, mrp, price)
+            try {
+                const req = await fetch("http://localhost:3004/api/v1/users/productDetailChanges", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ id, name, mrp, price })
+
+                })
+
+                const data = await req.json()
+                console.log(data)
+                await localStorage.removeItem("products");
+                await fetchProductData()
+                allProducts = await JSON.parse(localStorage.getItem("products"));
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        async function newProduct(productName,mrp,price){
+            try{
+                const req = await fetch("http://localhost:3004/api/v1/users/addProduct",{
+                    method:"POST",
+                    headers:{
+                        "Content-Type" : "application/json"
+                    },
+                    body:JSON.stringify({productName,mrp,price})
+                })
+                const data = await req.json()
+                console.log(data)
+                 await localStorage.removeItem("products");
+                await fetchProductData()
+                allProducts = await JSON.parse(localStorage.getItem("products"));
+            }catch(error){
+                console.log(error)
+            }
+        }
+
+    </script>
+</body>
+
+
+</html>

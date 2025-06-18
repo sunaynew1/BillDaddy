@@ -1,0 +1,636 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="output.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+</head>
+<body class="bg-[#222222]">
+  <div class="w-full min-h-screen flex flex-col ">
+   <!-- SIDEBAR -->
+<div class="fixed top-0 left-0 h-screen w-[16%] bg-[#171717]   rounded-r-xl px-4 py-6 z-50 border-r-[0.1px] border-white/10">
+  <!-- Logo -->
+   <div class="flex items-center justify-center text-center mb-[45px] ">
+  <i data-lucide="file-text" class="w-6 h-6 flex items-center ml-2  text-[#B6F500]"></i>
+  <h1 class="text-white text-3xl font-thin font-Funnel text-center">
+    Bill<span class="text-[#B6F500]">Daddy</span>
+  </h1>
+</div>
+
+   
+  <!-- Navigation -->
+  <div class="flex flex-col gap-6 font-Funnel ">
+
+    <!-- Generate Bill Button -->
+    <a href="index.html" class="w-full p-3 rounded-xl text-black bg-[#B6F500] text-center hover:bg-[#b8f500e7] transition-all">
+      + New Bill
+    </a>
+
+    <!-- Check Bills -->
+    <a href="checkbill.html" class="w-full p-3 rounded-xl text-white flex items-center gap-2  hover:bg-[#B6F500] hover:text-black transition-all">
+      <i data-lucide="file-text" class="w-5 h-5  hover:text-black "></i> Check Bills
+    </a>
+
+    <!-- Manage Products -->
+    <a href="manageProducts.html" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+      <i data-lucide="box" class="w-5 h-5"></i> Manage Products
+    </a>
+
+    <!-- Settings -->
+    <a href="#" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+      <i data-lucide="settings" class="w-5 h-5"></i> Settings
+    </a>
+
+  </div>    
+  </div>
+<div class="ml-[28%] w-[60%] min-h-screen  p-6 md:p-8 flex items-center justify-center "> 
+  
+  <div class="w-full max-w-5xl bg-white dark:bg-[#171717] rounded-2xl shadow-2xl p-6 md:p-8 space-y-8 border-[0.1px] border-white/10">
+    
+    <!-- Title -->
+    <h1 class="text-3xl  font-Funnel text-zinc-800 dark:text-white flex items-center gap-2">
+      <i data-lucide="receipt-text" class="w-6 h-6 text-[#B6F500] dark:text-[#B6F500]"></i>
+      NewBill
+    </h1>
+
+    <!-- Seller Info -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="relative">
+        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">Seller Name</label>
+        <input type="text" id="RetailerName" required
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
+        <ul id="retailer-suggestion"
+          class="hidden absolute left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-md z-50 text-sm text-zinc-800 dark:text-white max-h-60 overflow-y-auto ring-1 ring-black/5"></ul>
+      </div>
+
+      <div>
+        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">Contact Number</label>
+        <input type="text" id="ContactNumber"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
+      </div>
+
+      <div>
+        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">GST Number</label>
+        <input type="text" id="GSTNumber"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
+      </div>
+
+      <div>
+        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">Address</label>
+        <input type="text" id="address"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
+      </div>
+
+      <div>
+        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">Payment Method</label>
+        <select id="PaymentMethod"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition">
+          <option value="cash">Cash</option>
+          <option value="online">Online</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="space-y-6">
+      <h2 class="text-xl font-semibold text-zinc-800 dark:text-white flex items-center gap-2">
+        <i data-lucide="package" class="w-5 h-5 text-[#B6F500] dark:text-[#F4631E]"></i>
+        Products
+      </h2>
+
+      <!-- Column Labels -->
+      <div class="hidden md:grid grid-cols-5 gap-6 text-sm font-medium text-zinc-500 px-2">
+        <div>Product Name</div>
+        <div>MRP</div>
+        <div>Quantity</div>
+        <div>Price</div>
+        <div>Amount</div>
+      </div>
+
+      <!-- Product list -->
+      <div id="product-list" class="space-y-6"></div>
+
+      <!-- Add Button -->
+      <button id="add-product"
+        class="flex items-center gap-2 text-sm px-4 py-2 bg-[#F4631E] hover:bg-[#F4631E] text-white font-medium rounded-xl transition">
+        <i data-lucide="plus" class="w-4 h-4"></i> Add Product
+      </button>
+    </div>
+
+    <!-- Totals Section -->
+    <div class="border-t border-dashed border-zinc-300 dark:border-zinc-700 pt-6 grid grid-cols-1 md:grid-cols-6 gap-6 text-sm">
+      <div>
+        <label class="text-zinc-600 dark:text-zinc-300 font-medium">Sub Total</label>
+        <input type="number" id="subTotal" disabled
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
+      </div>
+
+      <div>
+        <label class="text-zinc-600 dark:text-zinc-300 font-medium">CGST (%)</label>
+        <input type="number" id="cgst"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
+      </div>
+
+      <div>
+        <label class="text-zinc-600 dark:text-zinc-300 font-medium">SGST (%)</label>
+        <input type="number" id="sgst"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
+      </div>
+
+      <div>
+        <label class="text-zinc-600 dark:text-zinc-300 font-medium">Discount (₹)</label>
+        <input type="number" id="discount"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
+      </div>
+
+      <div>
+        <label class="text-zinc-600 dark:text-zinc-300 font-medium">Round Off (₹)</label>
+        <input type="number" id="roundOff"
+          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
+      </div>
+
+      <div>
+        <label class="text-zinc-600 dark:text-zinc-300 font-medium">Total Amount (₹)</label>
+        <input type="text" id="total-amount" readonly
+          class="mt-2 w-full rounded-xl bg-zinc-200 dark:bg-zinc-700 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-900 dark:text-white focus:outline-none" placeholder="0" />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="pt-4 text-right">
+      <button id="submit"
+        class="inline-flex items-center gap-2 px-6 py-2 bg-[#B6F500] hover:bg-[#B6F500]/90 text-black rounded-xl transition font-medium">
+        <i data-lucide="receipt-text" class="w-4 h-4"></i>
+        Generate
+      </button>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+  
+  <script src="https://unpkg.com/lucide@latest">
+    
+  </script>   
+  <script>lucide.createIcons();</script>
+
+  <script >
+     const allProducts = JSON.parse(localStorage.getItem("products"));
+    const allRetailers =JSON.parse(localStorage.getItem("Retailers"));
+    let SubTotalAmount=0
+    let TotalAmount;
+
+
+    async function invoice(){
+    const CurrentInvoiceNo = await CurrentInvoiceNumber() 
+    console.log(`invoice no:-${CurrentInvoiceNo}`)
+    }
+
+    invoice()
+    
+    let itemArray = []
+
+    
+    function newItem(){
+      
+      let itemNo = itemArray.length+1
+      let itemID = `item-${itemNo}`
+      const productFields = `
+     <div class="space-y-4 border-t border-dashed border-zinc-300 dark:border-zinc-700 pt-4 product-item">
+  <!-- Item ID label -->
+  <div class="text-sm font-medium text-white">
+    ${itemID}
+  </div>
+
+  <!-- Inputs Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+    <!-- Product Name with Suggestions -->
+    <div class="relative w-full">
+      <input
+        type="text"
+        id="${itemID}-name"
+        placeholder="Product Name"
+        class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+      />
+      <ul
+        class="suggestions hidden absolute inset-x-0 top-full mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-md z-50 text-sm text-zinc-800 dark:text-white max-h-60 overflow-y-auto ring-1 ring-black/5"
+        id="${itemID}-suggestion">
+      </ul>
+    </div>
+
+    <!-- MRP -->
+    <input
+      type="number"
+      id="${itemID}-MRP"
+      placeholder="MRP"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+    />
+
+    <!-- Quantity -->
+    <input
+      type="number"
+      id="${itemID}-qty"
+      placeholder="Quantity"
+      min="1"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+    />
+
+    <!-- Price -->
+    <input
+      type="number"
+      id="${itemID}-Price"
+      placeholder="Price"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+    />
+
+    <!-- Amount (disabled) -->
+    <input
+      type="number"
+      id="${itemID}-ammount"
+      placeholder="Amount"
+      disabled
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+    />
+  </div>
+</div>
+
+        `;
+        itemArray.push(itemID)
+        document.getElementById("product-list").insertAdjacentHTML("beforeend", productFields);
+       productSuggestions()
+    }
+     
+
+        document.addEventListener("DOMContentLoaded", newItem())
+
+
+          function createSuggestionItem(prodNameLocation,prodMRPLocation,prodPriceLocation,productQtyLocation,productAmountLoaction,SubTotalAmountLocation,prodName,prodMRP,prodPrice, ul) {
+    const li = document.createElement("li");
+    // li.id=text
+    li.textContent = prodName;
+    li.className = "suggestionItem px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800";
+    li.onclick = () => {
+      prodNameLocation.value = prodName;
+      prodMRPLocation.value = prodMRP
+      prodPriceLocation.value = prodPrice
+      productQtyLocation.value=1
+      productAmountLoaction.value=(productQtyLocation.value)*(prodPriceLocation.value)
+
+      doSubTotal()
+      ul.classList.add("hidden");
+    };
+    return li;
+  }
+
+          function productSuggestions(){
+      itemArray.forEach(item =>{
+        console.log(item)
+        let productName = document.getElementById(`${item}-name`)
+        let productMRP = document.getElementById(`${item}-MRP`)
+        let productPRICE = document.getElementById(`${item}-Price`)
+        let productQuantity = document.getElementById(`${item}-qty`)
+        let productAmount = document.getElementById(`${item}-ammount`)
+        let subTotal = document.getElementById("subTotal")
+
+        productName.addEventListener("input",(e) => {
+          let name = e.target.value.trim()
+       const ul= document.getElementById(`${item}-suggestion`)
+
+           ul.innerHTML=""
+
+              
+    if (name.length === 0) {
+      ul.classList.add("hidden");
+      return;
+    }else{
+      ul.classList.remove("hidden");
+    }
+
+          console.log(name)
+
+          try{
+
+           const regex = new RegExp(name,"i")
+         const matched = allProducts.filter(p => regex.test(p.productName))
+         console.log(matched)
+
+           if (matched.length === 0) {
+        ul.classList.add("hidden");
+        return;
+      }
+       matched.forEach(match =>{
+ 
+         ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,match.productName,match.MRP,match.PRICE, ul));
+          ul.classList.remove("hidden");
+        })
+    
+        productQuantity.addEventListener("input",(e)=>{
+          let qty = e.target.value.trim()
+          productAmount.value=qty*(productPRICE.value)
+          doSubTotal()
+          // addTotal(productAmount)
+        })
+
+        productPRICE.addEventListener("input",(e) =>{
+            let price = e.target.value.trim()
+             productAmount.value=productQuantity.value*(productPRICE.value)
+            doSubTotal()
+        })
+         
+        }catch(error){
+          console.log(error)
+        }
+        
+        })
+      
+       
+      })
+    }
+
+    function createRetailerSuggestionList(retailerNameLocation,retailerContactLocation,retailerGSTLocation,retailerAddressLocation,RetailerName,ContactNumber,GSTNumber,Address,ul){
+      
+      const li = document.createElement("li")
+      li.textContent=RetailerName
+      li.className = " px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
+      li.onclick = () => {
+        retailerNameLocation.value=RetailerName
+        retailerContactLocation.value=ContactNumber
+        retailerGSTLocation.value=GSTNumber
+        retailerAddressLocation.value=Address
+        ul.classList.add("hidden");
+      }    
+      return li;
+    }
+      
+    function RetailerSuggestion(){
+      let retailerNameLocation = document.getElementById("RetailerName")
+      let retailerContactLocation = document.getElementById("ContactNumber")
+      let retailerGSTLocation = document.getElementById("GSTNumber")
+      let retailerAddressLocation = document.getElementById("address")
+
+      retailerNameLocation.addEventListener("input" , (e) =>{
+        let name = e.target.value.trim()
+        let ul = document.getElementById("retailer-suggestion")
+
+        ul.innerHTML=""
+
+        if(name.length === 0){
+          ul.classList.add("hidden")
+          return;
+        }else{
+           ul.classList.remove("hidden")
+        }
+
+        console.log(name)
+
+        try{
+          const regex = new RegExp(name,"i")
+          const matched = allRetailers.filter(r => regex.test(r.RetailerName))
+          console.log(matched)
+        
+          if(matched.length === 0 ){
+            ul.classList.add("hidden")
+            return;
+          }else{
+             ul.classList.remove("hidden")
+          }
+
+          matched.forEach(match =>{
+             ul.appendChild(createRetailerSuggestionList(retailerNameLocation,retailerContactLocation,retailerGSTLocation,retailerAddressLocation,match.RetailerName,match.ContactNumber,match.GSTNumber,match.Address,ul))
+          ul.classList.remove("hidden")
+
+        })
+            }catch(error){
+          console.log(error)
+        }
+      })
+    }
+     
+    RetailerSuggestion()
+
+    document.getElementById("add-product").addEventListener("click", () => {
+      newItem()
+
+
+    });
+
+ 
+
+
+document.getElementById("submit").addEventListener("click", async () => {
+  doSubTotal()
+  let retailerName=RetailerName.value
+  let retailerContactNumber = document.getElementById("ContactNumber").value
+  console.log(retailerContactNumber)
+  let retailerGSTNumber= GSTNumber.value
+  let retaileraddress =address.value
+  let paymentMethod= PaymentMethod.value
+  let Cgst = document.getElementById("cgst").value
+  let Sgst= document.getElementById("sgst").value
+  let subTotal = document.getElementById("subTotal").value
+  let FinalTotal =document.getElementById("total-amount").value
+  let round = document.getElementById("roundOff").value
+  let Order ;
+  let itemsList = []
+  itemArray.forEach(item =>{
+ let productName = document.getElementById(`${item}-name`).value
+        let productMRP = document.getElementById(`${item}-MRP`).value
+        let productPRICE = document.getElementById(`${item}-Price`).value
+        let productQuantity = document.getElementById(`${item}-qty`).value
+        let productAmount = document.getElementById(`${item}-ammount`).value
+       
+
+      itemsList.push({
+          productName,
+          productMRP,
+          productQuantity,
+          productPRICE,
+          productAmount
+        
+      })
+  })
+
+if(!retailerName || !retailerContactNumber || !retailerGSTNumber || !retaileraddress){
+    if(retailerName==""){
+        retailerName = "CASH"
+       
+
+    }
+     if(retailerContactNumber==""){
+        retailerContactNumber="None"
+    }
+
+    if(retaileraddress == ""){
+      retaileraddress="None"
+    }
+
+}
+if(FinalTotal == "NaN"){
+    console.log("Please add product first")
+}else{
+    let newArray =[];
+    itemArray.forEach(item =>{
+        let productName = document.getElementById(`${item}-name`).value
+          if(productName != ""){
+            let productMRP = document.getElementById(`${item}-MRP`).value
+            let productPRICE = document.getElementById(`${item}-Price`).value
+            let productQuantity = document.getElementById(`${item}-qty`).value
+            let productAmount = document.getElementById(`${item}-ammount`).value
+            newArray.push({
+          productName,
+          productMRP,
+          productQuantity,
+          productPRICE,
+          productAmount   
+            })
+          }
+    })
+    if(newArray.length != 0){
+     Order = {
+    retailerName :retailerName,
+    retailerContactNumber:retailerContactNumber,
+    retailerGSTNumber:retailerGSTNumber,
+    retaileraddress:retaileraddress,
+    paymentMethod:paymentMethod,
+    items:newArray,
+    SubTotal:subTotal,
+    Cgst:Cgst,
+    Sgst:Sgst,
+    roundOff:round,
+    TotalAmount:FinalTotal,
+  }
+
+  console.log(Order)
+  await generateBill(Order)
+  let invoice = await CurrentInvoiceNumber()
+  
+
+  console.log(invoice)
+
+ window.open(`http://127.0.0.1:3004/public/bill2.html?I=${invoice}`, "_blank");
+  window.location.href=`http://127.0.0.1:3004/public/bill2.html?I=${invoice}`
+window.location.reload();
+    }
+}
+  
+  // window.location.href=`k.html/${CurrentInvoiceNo}`
+
+})
+
+function doSubTotal(){
+    console.log(itemArray)
+   SubTotalAmount=0
+  itemArray.forEach(item=>{
+     
+    let check = document.getElementById(`${item}-ammount`).value
+    console.log(`check value ${check} check type : ${typeof(check)}`)
+    if(check === NaN || check === "NaN" || check == ""){
+      console.log("skipping NaN")
+    }else{
+        let productAmount = parseInt(document.getElementById(`${item}-ammount`).value)
+                SubTotalAmount=SubTotalAmount+productAmount
+    let cgst = 0.01*SubTotalAmount
+    let sgst =0.01*SubTotalAmount
+    TotalAmount=SubTotalAmount+cgst+sgst 
+    document.getElementById("cgst").value=cgst
+    document.getElementById("sgst").value=sgst
+     document.getElementById("subTotal").value=SubTotalAmount
+     let x=((Math.round(TotalAmount)-(TotalAmount)))
+     let roundOff = x.toFixed(2)
+    document.getElementById("roundOff").value=roundOff
+      
+    document.getElementById("total-amount").value=Math.round(TotalAmount)
+    console.log(Math.round(TotalAmount))
+    }
+       
+  })
+}
+
+
+
+    async function fetchProductData() {
+      try {
+        const req = await fetch("http://localhost:3004/api/v1/users/check", {
+          method: "GET"
+
+        })
+        const data = await req.json()
+        const d = data.data
+        d.sort((a, b) => {
+          return a.productName.localeCompare(b.productName);
+        });
+        // console.log(d)
+        localStorage.setItem("products", JSON.stringify(d));
+        return data;
+      } catch (error) {
+        console.log(`error occured while fetching data : - ${error}`)
+      }
+    }
+
+        async function fetchRetailerData() {
+      try {
+        const req = await fetch("http://localhost:3004/api/v1/users/fetchRetailers", {
+          method: "POST"
+
+        })
+        const data = await req.json()
+        const d = data.data
+        d.sort((a, b) => {
+          return a.RetailerName.localeCompare(b.RetailerName);
+        });
+        // console.log(d)
+        localStorage.setItem("Retailers", JSON.stringify(d));
+        return data;
+      } catch (error) {
+        console.log(`error occured while fetching data : - ${error}`)
+      }
+    }
+
+    async function generateBill(Order){
+      try{
+        const req = await fetch("http://localhost:3004/api/v1/users/generateBill ",{
+          method:"POST",
+          headers:{
+            "Content-Type" : "application/json"
+          },
+          body:JSON.stringify({Order})
+        })
+
+        const data = await req.json()
+        console.log(data)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+    async function CurrentInvoiceNumber(){
+      try{
+        const req = await fetch("http://localhost:3004/api/v1/users/invoiceNo",{
+          method:"POST",
+          headers:{
+            "Content-Type" : "application/json"
+          }
+        })
+        const data = await req.json()
+        console.log(data.data)
+        return data.data
+
+      }catch(error){
+        console.log(error)
+      }
+    }
+   
+    fetchProductData()
+    fetchRetailerData()
+
+ 
+
+  </script>
+  </script>
+</body>
+</html>

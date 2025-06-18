@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Check Bill - BillDaddy</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    window.onload = () => {
+      lucide.createIcons();
+    };
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="bg-[#18181b]">
+    <div class="w-full min-h-screen flex flex-col">
+  <!-- SIDEBAR -->
+<div class="fixed top-0 left-0 h-screen w-[16%] bg-[#171717]   rounded-r-xl px-4 py-6 z-50 border-r-[0.1px] border-white/10">
+  <!-- Logo -->
+   <div class="flex items-center justify-center text-center mb-[45px] ">
+  <i data-lucide="file-text" class="w-6 h-6 flex items-center ml-2  text-[#B6F500]"></i>
+  <h1 class="text-white text-3xl font-thin font-Funnel text-center">
+    Bill<span class="text-[#B6F500]">Daddy</span>
+  </h1>
+</div>
+
+   
+  <!-- Navigation -->
+  <div class="flex flex-col gap-6 font-Funnel ">
+
+    <!-- Generate Bill Button -->
+    <a href="index.html" class="w-full p-3 rounded-xl text-black bg-[#B6F500] text-center hover:bg-[#b8f500e7] transition-all">
+      + New Bill
+    </a>
+
+    <!-- Check Bills -->
+    <a href="checkbill.html" class="w-full p-3 rounded-xl  flex items-center gap-2  bg-[#B6F500] text-black transition-all">
+      <i data-lucide="file-text" class="w-5 h-5  hover:text-black "></i> Check Bills
+    </a>
+
+    <!-- Manage Products -->
+    <a href="manageProducts.html" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+      <i data-lucide="box" class="w-5 h-5"></i> Manage Products
+    </a>
+
+    <!-- Settings -->
+    <a href="#" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+      <i data-lucide="settings" class="w-5 h-5"></i> Settings
+    </a>
+
+  </div>    
+  </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="ml-[20%] w-[80%] min-h-screen p-6 md:p-8 bg-[#18181b]">
+      <!-- Header -->
+      <div class="mb-8 flex items-center gap-2">
+        <i data-lucide="file-search" class="w-6 h-6 ml-3 text-[#B6F500] dark:text-[#B6F500]"></i>
+        <h1 class="text-3xl font-bold text-zinc-800 dark:text-white font-Funnel">Check Bills</h1>
+      </div>
+
+      <!-- Search Section -->
+      <div class="bg-white dark:bg-zinc-900 rounded-2xl p-6 space-y-4 font-Funnel">
+        <h2 class="text-lg font-semibold text-zinc-700 dark:text-white mb-2">Search Bill</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Retailer Name -->
+          <div>
+            <label class="block text-sm font-medium text-zinc-600 dark:text-zinc-300 mb-1">Retailer Name</label>
+            <input type="text" id="searchName" placeholder="Enter Retailer Name"
+              class="w-full mt-[10px] rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
+            <ul id="retailer-suggestion"
+              class="hidden absolute  mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-md z-50 text-sm text-zinc-800 dark:text-white max-h-60 overflow-y-auto ring-1 ring-black/5">
+            </ul>
+          </div>
+
+          <!-- Invoice No -->
+          <div>
+            <label class="block text-sm font-medium text-zinc-600 dark:text-zinc-300 mb-1">Invoice No</label>
+            <input type="number" id="searchInvoice" placeholder="Enter Invoice No"
+              class="w-full mt-[10px] rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
+
+          </div>
+        </div>
+
+        <div class="text-right pt-4">
+          <button
+            class="px-6 py-2 rounded-xl bg-[#B6F500] hover:bg-[#B6F500] text-black font-medium transition flex items-center gap-2"
+            id="btn-search">
+            <i data-lucide="search" class="w-4 h-4"></i> Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="mt-10 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6 font-Funnel">
+        <h3 class="text-lg font-semibold text-zinc-700 dark:text-white mb-4">Results</h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-left text-sm text-zinc-700 dark:text-zinc-200">
+            <thead>
+              <tr class="border-b border-zinc-300 dark:border-zinc-700">
+                <th class="px-4 py-2">Invoice No</th>
+                <th class="px-4 py-2">Retailer Name</th>
+                <th class="px-4 py-2">Date</th>
+                <th class="px-4 py-2">Amount (₹)</th>
+                <th class="px-4 py-2">Action</th>
+                <th class="px-4 py-2">Status</th>
+                <th class="px-4 py-2">Change Status</th>
+              </tr>
+            </thead>
+            <tbody id="billResults">
+              <!-- Sample Data Row -->
+              <tr class="border-b border-zinc-200 dark:border-zinc-800">
+                <td class="px-4 py-2">1023</td>
+                <td class="px-4 py-2">Apna Miraan Kirana Store</td>
+                <td class="px-4 py-2">13/06/2025</td>
+                <td class="px-4 py-2">₹1,230</td>
+                <td class="px-4 py-2">
+                  <button class="text-blue-600 hover:underline">View</button>
+                </td>
+                <td class="px-4 py-2 text-[#B6F500]">ACTIVE</td>
+              </tr>
+              <!-- More rows will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let retailerName
+    let BillNo
+    let retailerNameSearch
+    let invoiceNoSearch
+    document.getElementById("btn-search").addEventListener("click", async () => {
+      document.getElementById("billResults").innerHTML = ""
+      retailerName = document.getElementById("searchName").value
+      BillNo = document.getElementById("searchInvoice").value
+
+      if (retailerName != "") {
+
+        retailerNameSearch = await fetchRetailerDataThroughRetailerName(retailerName)
+        dataRow(retailerNameSearch)
+      } else if (BillNo != "") {
+        // retailerName = ""
+        invoiceNoSearch = await fetchRetailerDataThroughinvoiceNo(BillNo)
+        console.log(invoiceNoSearch)
+        dataRow(invoiceNoSearch)
+      }
+
+
+    })
+
+    document.getElementById("searchName").addEventListener("input", () => {
+      document.getElementById("searchInvoice").value = ""
+    })
+    document.getElementById("searchInvoice").addEventListener("input", () => {
+      document.getElementById("searchName").value = ""
+    })
+
+    const allRetailers = JSON.parse(localStorage.getItem("Retailers"));
+
+    function createRetailerSuggestionList(retailerNameLocation, value, ul) {
+      const li = document.createElement("li")
+      li.textContent = value
+      li.className = " px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
+      li.onclick = () => {
+        retailerNameLocation.value = value
+        ul.classList.add("hidden")
+      }
+      return li;
+
+    }
+
+    function dataRow(searchkey) {
+
+      document.getElementById("billResults").innerHTML = ""
+      console.log(searchkey)
+      // if(searchkey.data.length >0)
+      //   {
+
+      // console.log("Sdsdd")
+      // console.log(searchkey.data)
+      searchkey.data.sort(function (a, b) { return b.InvoiceNo - a.InvoiceNo });
+      searchkey.data.forEach(data => {
+
+        const date = new Date(data.createdAt).toLocaleString();
+        const row = `
+                     <tr class="border-b border-zinc-200 dark:border-zinc-800">
+                <td class="px-4 py-2">${data.InvoiceNo}</td>
+                <td class="px-4 py-2">${data.RetailerName}</td>
+                <td class="px-4 py-2">${date}</td>
+                <td class="px-4 py-2">₹${data.TotalAmount}</td>
+                
+                <td class="px-4 py-2">
+                  <button onclick="window.open('http://127.0.0.1:3005/bill2.html?I=${data.InvoiceNo}', '_blank');" class=" billLink text-blue-600 hover:underline">View</button>
+                </td>
+                <td id="${data.InvoiceNo}-status" class="px-4 py-2 ${data.BillStatus === 'ACTIVE' ? 'text-[#B6F500]' : 'text-[#E83F25]'}">${data.BillStatus}</td>
+                <td class="px-4 py-2">
+                    <select id='${data.InvoiceNo}-newStatus' class="bg-[#18181b] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-[#18181b] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <option selected>Choose Status</option>
+                          <option value="ACTIVE" class="text-green-600">ACTIVE</option>
+                          <option value="CANCELLED" class="text-red-600">CANCELLED</option>
+                        </select>
+                  </td>
+              </tr>
+                    `
+
+        // document.querySelectorAll("<td class='px-4 py-2'>ACTIVE</td>")
+        document.getElementById("billResults").insertAdjacentHTML("beforeend", row)
+
+        document.getElementById(`${data.InvoiceNo}-newStatus`).addEventListener("change", async (e) => {
+          let value = e.target.value
+          
+          if (data.BillStatus == "ACTIVE" && value == "CANCELLED") {
+          await  updateStatus(data.InvoiceNo, "CANCELLED")
+          if(retailerName != ""){
+            const newData= await fetchRetailerDataThroughRetailerName(retailerName) 
+             await dataRow(newData)
+          }else if(BillNo != ""){
+             const newData=  await fetchRetailerDataThroughinvoiceNo(BillNo) 
+            console.log(newData)
+           await dataRow(newData)
+          }
+          //   const newData= await fetchRetailerDataThroughRetailerName(retailerName) || await fetchRetailerDataThroughinvoiceNo(BillNo) 
+          //   console.log(newData)
+          //  await dataRow(newData)
+            // dataRow(document.getElementById("searchName"))
+
+            console.log("changing to cancelled")
+          }
+          else if (data.BillStatus == "CANCELLED" && value == "ACTIVE") {
+           await updateStatus(data.InvoiceNo, "ACTIVE")
+            if(retailerName != ""){
+            const newData= await fetchRetailerDataThroughRetailerName(retailerName) 
+             await dataRow(newData)
+          }else if(BillNo != ""){
+             const newData=  await fetchRetailerDataThroughinvoiceNo(BillNo) 
+            console.log(newData)
+           await dataRow(newData)
+          }
+          }
+        })
+      });
+      // }         
+
+
+    }
+
+
+
+    function RetailerSuggestions() {
+      let retailerNameLocation = document.getElementById("searchName")
+
+      retailerNameLocation.addEventListener("input", (e) => {
+        let name = e.target.value.trim()
+        let ul = document.getElementById("retailer-suggestion")
+        ul.innerHTML = ""
+
+        if (name.length === 0) {
+          ul.classList.add("hidden")
+          return;
+        } else {
+          ul.classList.remove("hidden")
+        }
+
+        try {
+          const regex = new RegExp(name, "i")
+          const matched = allRetailers.filter(r => regex.test(r.RetailerName))
+          console.log(matched)
+          if (matched.length === 0) {
+            ul.classList.add("hidden")
+            return;
+          } else {
+            ul.classList.remove("hidden")
+          }
+
+          matched.forEach(match => {
+            ul.appendChild(createRetailerSuggestionList(retailerNameLocation, match.RetailerName, ul))
+            //  ul.classList.remove("hidden")
+          })
+        } catch (error) {
+          console.log(error)
+        }
+
+      })
+
+
+
+    }
+    RetailerSuggestions()
+
+    async function fetchRetailerDataThroughRetailerName(retailerName) {
+      try {
+        const req = await fetch("http://localhost:3004/api/v1/users/fetchBillsThroughRetailerName", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ retailerName })
+        })
+        const data = await req.json()
+        // console.log(data.data)
+        return data
+        // return data.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    async function fetchRetailerDataThroughinvoiceNo(invoiceNo) {
+      try {
+        const req = await fetch("http://localhost:3004/api/v1/users/fetchBillsThroughInvoice", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ invoiceNo })
+        })
+        const data = await req.json()
+        return data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    async function updateStatus(invoiceNo, newStatus) {
+      try {
+        const req = await fetch("http://localhost:3004/api/v1/users/updateStatus", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ invoiceNo, newStatus })
+        })
+        console.log(invoiceNo)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+  </script>
+</body>
+
+</html>

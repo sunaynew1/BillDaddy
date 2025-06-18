@@ -1,0 +1,243 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Retail Bill</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    </head>
+    <body class="bg-gray-100 p-4 text-sm font-mono">
+
+    <div id="invoices" class="w-full mx-auto bg-white p-6 border border-gray-600 shadow-lg">
+    
+    <!-- Seller Info -->
+    <div class="border border-gray-500 p-4 pb-0 text-xl">
+      <h1 class="text-2xl font-bold">Retail Store Pvt. Ltd.</h1>
+      <p>Address: 123 Main Road, Jaipur, Rajasthan - 302001</p>
+      <p>GSTIN: <span class="font-semibold">08ABCDE1234Z1A1</span></p>
+      <p>Phone: ‪+91 98765 43210‬</p>
+    </div>
+
+    <!-- Receiver Info -->
+    <div class="border border-gray-500 p-4 text-xl">
+       <div class="text-right text-[16px] font-semibold"> 
+        <p>Invoice No: <span class="font-medium font-bold underline " id="invoiceNumber"></span></p>
+        <p>Date: <span class="text-l" id="date"></span></p>
+        
+    </div>
+      <h2 class="font-semibold text-xl ">Billed To:</h2>
+      <p>Name: <span class="font-medium" id="retailerName"></span></p>
+      <p>GSTIN: <span class="font-medium" id="retailerGst"></span></p>
+      <p>Phone: <span class="font-medium" id="retailerContact"></span></p>
+      <p>Address: <span class="font-medium" id="retailerAddress"></span></p>
+      
+    </div>
+
+    <!-- Item Table -->
+    <table class="w-full border border-gray-500 border-collapse mb-4 text-xl">
+      <thead>
+        <tr class="bg-gray-200">
+          <th class="border border-gray-500 px-2 py-1 text-left">Item</th>
+          <th class="border border-gray-500 px-2 py-1 text-right">Qty</th>
+          <th class="border border-gray-500 px-2 py-1 text-right">MRP</th>
+          <th class="border border-gray-500 px-2 py-1 text-right">Price</th>
+          <th class="border border-gray-500 px-2 py-1 text-right">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="bill-items" class="text-m">
+     
+      </tbody>
+    </table>
+
+    <!-- Total Breakdown -->
+    <div class="border border-gray-500 p-4 w-full text-xl">
+      <div class="flex justify-between mb-1">
+        <span>Subtotal:</span>
+        <span id="subTotal">₹500</span>
+      </div>
+      <div class="flex justify-between mb-1">
+        <span>Round Off (₹):</span>
+        <span id="roundoff">- ₹50</span>
+      </div>
+      <div class="flex justify-between mb-1">
+        <span>CGST (1%):</span>
+        <span id="Cgst"></span>
+      </div>
+      <div class="flex justify-between mb-1">
+        <span>SGST (1%):</span>
+        <span id="Sgst">₹40.5</span>
+      </div>
+      <div class="flex justify-between font-bold text-lg mt-2 border-t border-gray-300 pt-2">
+        <span>Total Payable:</span>
+        <span id="amount">₹531</span>
+      </div>
+    </div>
+
+  <!-- Authorized Signature -->
+<div class="flex justify-end mt-12">
+  <div class="text-right">
+    <p class="text-xl ">Authorized Signature</p>
+    <div class="w-48 h-10 border-t-2  border-gray-800 mt-2"></div>
+    
+    
+  </div>
+</div>
+
+<!-- Footer -->
+<p class="text-center text-xs text-gray-500 mt-6">Thank you for shopping with us!</p>
+
+   <button onclick="generateTwoCopies()" class="px-4 py-2 bg-blue-600 text-white rounded">
+  Download 2 Copies
+</button>
+
+  
+
+  <script>
+
+
+    const params = new URLSearchParams(window.location.search)
+    // const billNo=params.get(`I`)
+   const BillNo=params.get(`I`)
+   let billData;
+    async function fetchData(){
+        try{
+            const req = await fetch("http://localhost:3004/api/v1/users/fetchCompleteBillThroughInvoice",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({BillNo})
+            })
+            const data = await req.json()
+
+            //Date Coversion
+            const d = data.data.createdAt
+            const localDate = new Date(d)
+            const date = localDate.toLocaleString()
+            console.log(date)
+ 
+            //Order items
+            const items = data.data
+            console.log(items)
+
+        //Variables
+        const retailerName = document.getElementById("retailerName")    
+        const retailerGst = document.getElementById("retailerGst")    
+        const retailerContact = document.getElementById("retailerContact")    
+        const retailerAddress = document.getElementById("retailerAddress")    
+        const invoiceNumber = document.getElementById("invoiceNumber")
+        const dateLocation = document.getElementById("date")
+        const subTotal = document.getElementById("subTotal")
+        const roundOff = document.getElementById("roundoff")
+        const Cgst = document.getElementById("Cgst")
+        const Sgst = document.getElementById("Sgst")
+        const amount = document.getElementById("amount")
+        
+                //assigning data value
+        
+        retailerName.textContent=data.data.RetailerName
+        retailerGst.textContent = data.data.GSTNumber
+        retailerContact.textContent=data.data.ContactNumber
+        retailerAddress.textContent=data.data.Address
+        invoiceNumber.textContent=data.data.InvoiceNo
+        dateLocation.textContent=date
+        subTotal.textContent=`₹${data.data.subTotal}`
+        roundOff.textContent=`${data.data.roundOff}`
+        Cgst.textContent=`${data.data.Cgst}`
+        Sgst.textContent=`${data.data.Sgst}`
+        amount.textContent=`₹${data.data.TotalAmount}`
+
+         const itemsLength = items.items.length
+         const emptylenght = 10-itemsLength
+         console.log(itemsLength)
+        //inserting products
+        items.items.forEach(item => {
+            console.log("sdsd")
+            const tbody = document.getElementById("bill-items")
+            const t = `
+            <tr>
+          <td class="border border-gray-500 px-2 py-1">${item.productName}</td>
+          <td class="border border-gray-500 px-2 py-1 text-right">${item.productQuantity}</td>
+          <td class="border border-gray-500 px-2 py-1 text-right">${item.productMRP}</td>
+          <td class="border border-gray-500 px-2 py-1 text-right">${item.productPRICE}</td>
+           <td class="border border-gray-500 px-2 py-1 text-right">${item.productAmount}</td>
+          </tr>
+            `
+
+            tbody.insertAdjacentHTML("beforeend", t);
+            // const tr=document.createElement("tr")
+            // const td_productName = document.createElement("td")
+            // const td_productQty = document.createElement("td")
+            // const td_productPrice = document.createElement("td")
+            // const td_productMRP = document.createElement("td")
+            // const td_productAmount = document.createElement("td")
+
+
+            // td_productName.
+
+            
+            // tr.appendChild(td_productName)
+            // tr.appendChild(td_productQty)
+            // tr.appendChild(td_productPrice)
+            // tr.appendChild(td_productMRP)
+            // tr.appendChild(td_productAmount)
+            // tbody.appendChild(tr)
+        });
+          
+        for(let i=0;i<emptylenght;i++){
+            const tbody = document.getElementById("bill-items")
+            const t = `
+            <tr>
+          <td class="border border-gray-500 px-5 py-1">     </td>
+          <td class="border border-gray-500 px-5 py-1 text-right"></td>
+          <td class="border border-gray-500 px-5 py-1 text-right"></td>
+          <td class="border border-gray-500 px-5 py-1 text-right"></td>
+           <td class="border border-gray-500 px-5 py-1 text-right"></td>
+          </tr>
+            `
+
+            tbody.insertAdjacentHTML("beforeend", t);
+        }
+
+ 
+                 
+
+            console.log(data)
+            // const data = await req.json()
+           
+        }catch(error){
+       console.log(error)
+    }
+    }
+    fetchData()
+    
+    // async function generateTwoCopies() {
+    // const { jsPDF } = window.jspdf;
+    // const doc = new jsPDF("p", "pt", "a4");
+
+    // const invoiceElement = document.getElementById("invoice");
+
+    // // Render the invoice into canvas
+    // const canvas = await html2canvas(invoiceElement, { scale: 10 });
+    // const imgData = canvas.toDataURL("image/png");
+
+    // // Get image dimensions
+    // const pdfWidth = doc.internal.pageSize.getWidth();
+    // const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    // // First copy
+    // doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+    // // Second copy
+    // doc.addPage(); // Go to next page
+    // doc.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+    // doc.save("invoice_two_copies.pdf");
+    // }
+  </script>
+
+</body>
+</html>
