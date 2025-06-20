@@ -1,12 +1,12 @@
 import { Router } from "express";
 import upload from "../middlewares/multer.middleware.js";
-import { check, fetchRetailers, newProduct, newRetailer,generateBill,fetchCurrentInvoiceNo, fetchCompleteBillThroughInvoice, fetchBillsThroughRetailerName, fetchBillsThroughInvoice, updateStatus ,deleteProduct,productDetailChanges,sendBillOnWhatsApp} from "../controllers/checkController.js";
+import { fetchProductData, fetchRetailers, newProduct, newRetailer,generateBill,fetchCurrentInvoiceNo, fetchCompleteBillThroughInvoice, fetchBillsThroughRetailerName, fetchBillsThroughInvoice, updateStatus ,deleteProduct,productDetailChanges,sendBillOnWhatsApp,newInventory,updateAvailableStock} from "../controllers/checkController.js";
 import bodyParser from 'body-parser'
 // import multer from "multer";
 
 const router = Router()
 
-router.route("/check").get(check)
+router.route("/fetchProductData").get(fetchProductData)
 router.route("/addProduct").post(newProduct)
 router.route("/addRetailer").post(newRetailer)
 router.route("/fetchRetailers").post(fetchRetailers)
@@ -18,8 +18,10 @@ router.route("/fetchBillsThroughInvoice").post(fetchBillsThroughInvoice)
 router.route("/updateStatus").post(updateStatus)
 router.route("/deleteProduct").post(deleteProduct)
 router.route("/productDetailChanges").post(productDetailChanges)
-
-
+router.route("/updateInventory").post(newInventory)
+router.route("/updateAvailableStock").post(updateAvailableStock)
+// newInventory
+// updateAvailableStock
 router.route("/sendBillOnWhatsApp").post(
       upload.single("invoice"),
     sendBillOnWhatsApp)

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Inventory - BillDaddy</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        window.onload = () => {
+            lucide.createIcons();
+        };
+    </script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="output.css" />
+</head>
+
+<body class="bg-[#18181b] font-Funnel text-white">
+    <div class="flex flex-col md:flex-row min-h-screen">
+
+        <!-- SIDEBAR -->
+        <div
+            class="fixed top-0 left-0 h-screen w-[16%] bg-[#171717] rounded-r-xl px-4 py-6 z-50 border-r-[0.1px] border-white/10">
+            <div class="flex items-center justify-center text-center mb-[45px]">
+                <i data-lucide="file-text" class="w-6 h-6 ml-2 text-[#B6F500]"></i>
+                <h1 class="text-white text-3xl font-thin font-Funnel text-center">
+                    Bill<span class="text-[#B6F500]">Daddy</span>
+                </h1>
+            </div>
+
+            <div class="flex flex-col gap-6 font-Funnel">
+                <a href="index.html"
+                    class="w-full p-3 rounded-xl text-black bg-[#B6F500] text-center hover:bg-[#b8f500e7] transition-all">
+                    + New Bill
+                </a>
+                <a href="checkbill.html"
+                    class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+                    <i data-lucide="file-text" class="w-5 h-5"></i> Check Bills
+                </a>
+                <a href="manageProducts.html"
+                    class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+                    <i data-lucide="box" class="w-5 h-5"></i> Manage Products
+                </a>
+                <a href="manageInventory.html"
+                    class="w-full p-3 rounded-xl bg-[#B6F500] text-black flex items-center gap-2 transition-all">
+                    <i data-lucide="warehouse" class="w-5 h-5"></i> Manage Inventory
+                </a>
+                <a href="#"
+                    class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
+                    <i data-lucide="settings" class="w-5 h-5"></i> Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <main class="ml-[20%] w-[80%] mr-[10%] items-center bg-[#171717] px-4 md:px-12 py-10 space-y-12">
+
+            <div class="">
+                <!-- Add Product Section -->
+                <!-- Add Product Section -->
+                <section class="space-y-6">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="box" class="w-7 h-7 text-[#F4631E]"></i>
+                        <h1 class="text-3xl font-bold">Add Product</h1>
+                    </div>
+
+                    <div class=" rounded-3xl p-6 md:p-10 space-y-8 border border-[#2e2e33] shadow-lg">
+                        <div class="grid grid-row-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-1">Product Name</label>
+                                <input type="text" placeholder="e.g. Arhar Dal" id="NewProductName"
+                                    class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm focus:ring-2 focus:ring-[#F4631E] outline-none" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-1">MRP (₹)</label>
+                                <input type="number" placeholder="e.g. 120" id="NewProductMRP"
+                                    class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm focus:ring-2 focus:ring-[#F4631E] outline-none" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-1">Selling Price (₹)</label>
+                                <input type="number" placeholder="e.g. 110" id="NewProductPRICE"
+                                    class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm focus:ring-2 focus:ring-[#F4631E] outline-none" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-zinc-300 mb-1">Starting Stock</label>
+                                <input type="number" placeholder="e.g. 110" id="NewStockNumber"
+                                    class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm focus:ring-2 focus:ring-[#F4631E] outline-none" />
+                            </div>
+                            <!-- <div class="">
+            <select id='${data.InvoiceNo}-newStatus' class="bg-[#18181b] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#B6F500] focus:border-[#B6F500] block w-full p-2.5 dark:bg-[#18181b] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-[#B6F500] dark:focus:border-[#B6F500]">
+                          <option selected>Choose Status</option>
+                          <option value="ACTIVE" class="text-green-600">ACTIVE</option>
+                          <option value="CANCELLED" class="text-red-600">CANCELLED</option>
+                        </select>
+          </div> -->
+                        </div>
+
+
+
+                        <div class="text-right">
+                            <button id="NewProductAddBtn"
+                                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#F4631E] hover:bg-[#F4631E]/90 transition text-black font-medium">
+                                <i data-lucide="plus" class="w-4 h-4"></i> Add Product
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+            <!-- Manage Inventory Section -->
+           <section class="space-y-6">
+  <!-- Title -->
+  <div class="flex items-center gap-3">
+    <i data-lucide="warehouse" class="w-7 h-7 text-[#B6F500]"></i>
+    <h1 class="text-3xl font-bold">Manage Inventory</h1>
+  </div>
+
+  <!-- Card -->
+  <div class="rounded-3xl p-6 md:p-10 border border-[#2e2e33] shadow-lg space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Product ID -->
+      <div>
+        <label for="_id" class="block text-sm font-medium text-zinc-300 mb-1">Product ID</label>
+        <input type="text" placeholder="NULL" id="id" disabled
+          class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm text-white focus:ring-2 focus:ring-[#B6F500] outline-none" />
+      </div>
+
+      <!-- Product Name -->
+      <div class="relative">
+        <label for="inventoryProductName" class="block text-sm font-medium text-zinc-300 mb-1">Add Stock</label>
+        <input type="text" id="inventoryProductName" placeholder="e.g. Sugar"
+          class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm text-white focus:ring-2 focus:ring-[#B6F500] outline-none" />
+
+        <!-- Suggestion Dropdown -->
+        <ul id="suggestion"
+          class="hidden absolute top-full left-0 w-full mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-md z-50 text-sm text-zinc-800 dark:text-white max-h-60 overflow-y-auto ring-1 ring-black/5">
+          <!-- JS injects <li> here -->
+        </ul>
+      </div>
+
+      <!-- New Stock -->
+      <div>
+        <label for="newStock" class="block text-sm font-medium text-zinc-300 mb-1">Product Name</label>
+        <input type="number" id="newStock" placeholder="e.g. 50"
+          class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm text-white focus:ring-2 focus:ring-[#B6F500] outline-none" />
+      </div>
+
+      <!-- New MRP -->
+      <div>
+        <label for="newMRP" class="block text-sm font-medium text-zinc-300 mb-1">New MRP (₹)</label>
+        <input type="number" id="newMRP" placeholder="e.g. 60"
+          class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm text-white focus:ring-2 focus:ring-[#B6F500] outline-none" />
+      </div>
+
+      <!-- New Price -->
+      <div>
+        <label for="newPrice" class="block text-sm font-medium text-zinc-300 mb-1">New Price (₹)</label>
+        <input type="number" id="newPrice" placeholder="e.g. 55"
+          class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-3 text-sm text-white focus:ring-2 focus:ring-[#B6F500] outline-none" />
+      </div>
+
+    </div>
+
+    <!-- Save Button -->
+    <div class="text-right">
+      <button id="updateInventoryBtn"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#B6F500] hover:bg-[#B6F500]/90 transition text-black font-medium">
+        <i data-lucide="save" class="w-4 h-4"></i> Save Changes
+      </button>
+    </div>
+  </div>
+</section>
+
+        </main>
+    </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden">
+    <div id="toastIcon"></div>
+    <span id="toastText" class="text-sm font-medium">Message</span>
+  </div>
+    <!-- Loading Overlay -->
+  <div id="loadingPopup" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-white text-gray-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3">
+      <svg class="animate-spin h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-lg font-medium">Loading, please wait...</span>
+    </div>
+  </div>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="loading.js"></script>
+    <script>
+        lucide.createIcons();
+
+        let ProductName = document.getElementById("inventoryProductName")
+        let allProducts = JSON.parse(localStorage.getItem("products"));
+
+        function createProductSuggestionList(item, prodNameLocation, prodMRPLocation, prodPriceLocation, productStockLocation, ul) {
+            // if (item.PRICE == undefined) {
+            //     item.PRICE = 0
+            // } else if (item.MRP == undefined) {
+            //     item.MRP = 0
+            // }
+            const li = document.createElement("li");
+            // li.id=text
+            li.textContent = item.productName;
+            li.className = "suggestionItem px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800";
+            li.onclick = () => {
+                prodNameLocation.value = item.productName;
+                prodMRPLocation.value = item.MRP
+                prodPriceLocation.value = item.PRICE
+                //   console.log(item.Price)
+                console.log(item._id)
+                document.getElementById("id").value = item._id
+                //   productQtyLocation.value=1
+                //   productAmountLoaction.value=(productQtyLocation.value)*(prodPriceLocation.value)
+
+                //   doSubTotal()
+                ul.classList.add("hidden");
+
+            }
+            ul.appendChild(li)
+            // console.log(ul)
+            return li;
+        };
+
+
+
+
+
+
+
+        ProductName.addEventListener("input", async (e) => {
+            let value = e.target.value.trim()
+            let suggestionsList = document.getElementById("suggestion")
+
+            const prodNameLocation = document.getElementById("inventoryProductName")
+            const prodMrpLocation = document.getElementById("newMRP")
+            const prodPriceLocation = document.getElementById("newPrice")
+            const prodStockLocation = document.getElementById("newStock")
+
+
+            suggestionsList.innerHTML = ""
+
+            if (value == "") {
+                suggestionsList.innerHTML = ""
+                return;
+            } else {
+                suggestionsList.innerHTML = ""
+                suggestionsList.classList.remove("hidden")
+            }
+
+            try {
+                const regex = new RegExp(value, "i")
+                const matched = allProducts.filter(p => regex.test(p.productName))
+                console.log(matched)
+                if (matched.length === 0) {
+                    suggestionsList.classList.add("hidden")
+                    suggestionsList.innerHTML = ""
+                } else {
+                    suggestionsList.innerHTML = ""
+                    suggestionsList.classList.remove("hidden")
+                }
+                matched.forEach(match => {
+                    // console.log(match)
+                    createProductSuggestionList(match, prodNameLocation, prodMrpLocation, prodPriceLocation, prodStockLocation, suggestionsList)
+                    // prodNameLocation,prodMRPLocation,prodPriceLocation,productStockLocation,prodName,prodMRP,prodPrice,newStock, ul
+                    // suggestionsList.insertAdjacentHTML("beforeend", createProductSuggestionList(match, prodNameLocation, prodMrpLocation, prodPriceLocation, prodStockLocation, suggestionsList))
+                    //  suggestionsList.classList.remove("hidden")
+                    // suggestionsList.insertAdjacentHTML("","dsdsdsd")
+
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        })
+
+
+
+        document.getElementById("NewProductAddBtn").addEventListener("click", async () => {
+            const name = document.getElementById("NewProductName").value
+            const mrp = document.getElementById("NewProductMRP").value
+            const price = document.getElementById("NewProductPRICE").value
+            const newStockNumber = document.getElementById("NewStockNumber").value
+            console.log(document.getElementById("NewStockNumber").value)
+
+            await newProduct(name, mrp, price, newStockNumber)
+            document.getElementById("NewProductName").value = ""
+            document.getElementById("NewProductMRP").value = ""
+            document.getElementById("NewProductPRICE").value = ""
+            document.getElementById("NewStockNumber").value = ""
+        })
+
+        document.getElementById("updateInventoryBtn").addEventListener("click", async () => {
+            const prodName = document.getElementById("inventoryProductName")
+            const prodMrp = document.getElementById("newMRP")
+            const prodPrice = document.getElementById("newPrice")
+            const prodStock = document.getElementById("newStock")
+            const id = document.getElementById("id")
+
+            // console.log(id.value,prodNameLocation.value,prodMrpLocation.value,prodPriceLocation.value,prodStockLocation.value)
+            await updateInventory(id.value, prodName.value, prodMrp.value, prodPrice.value, prodStock.value)
+        })
+
+        async function newProduct(name, mrp, price, newStockNumber) {
+
+            // console.log(id,productName, mrp, price,newStockNumber)
+            try {
+                const req = await fetch("http://localhost:3004/api/v1/users/addProduct", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name, mrp, price, newStockNumber })
+                })
+                const data = await req.json()
+                if (data.message == "success") {
+                    fetchProductList()
+                    await showToast("success", "Successfully Added");
+                } else {
+                    showToast("error", "Request failed: " + data.message);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+
+        async function updateInventory(id, productName, mrp, price, newStockNumber) {
+            try {
+                const req = await fetch("http://localhost:3004/api/v1/users/updateInventory", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ id, productName, mrp, price, newStockNumber })
+                })
+                const data = await req.json()
+                      if (data.message == "success") {
+                        fetchProductList()
+       await showToast("success", "Stock Successfully Updated");
+      }else{
+        showToast("error", "Request failed: " + data.message);
+      }
+                console.log(data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        async function fetchProductList(){
+                try {
+        const req = await fetch("http://localhost:3004/api/v1/users/fetchProductData", {
+          method: "GET"
+
+        })
+        const data = await req.json()
+        const d = data.data
+      if (data.message == "success") {
+         d.sort((a, b) => {
+          return a.productName.localeCompare(b.productName);
+        });
+        // console.log(d)
+        localStorage.removeItem("products")
+        localStorage.setItem("products", JSON.stringify(d));
+        
+       await showToast("success", "Successfully Fetched Product Data");
+       return data;
+      }else{
+        showToast("error", "Request failed: " + data.message);
+      }
+
+       
+      } catch (error) {
+        console.log(`error occured while fetching data : - ${error}`)
+      }
+        }
+
+    </script>
+</body>
+
+</html>

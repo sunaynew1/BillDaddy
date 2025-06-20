@@ -1,4 +1,4 @@
-<!doctype html>
+  <!doctype html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -39,7 +39,10 @@
     <a href="manageProducts.html" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
       <i data-lucide="box" class="w-5 h-5"></i> Manage Products
     </a>
-
+       <!-- Manage inventory -->
+    <a href="manageInventory.html" class="w-full p-3 rounded-xl  flex items-center gap-2 hover:bg-[#B6F500] text-white hover:text-black transition-all">
+      <i data-lucide="warehouse" class="w-5 h-5"></i> Manage Inventory
+    </a>
     <!-- Settings -->
     <a href="#" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
       <i data-lucide="settings" class="w-5 h-5"></i> Settings
@@ -102,14 +105,17 @@
         Products
       </h2>
 
-      <!-- Column Labels -->
-      <div class="hidden md:grid grid-cols-5 gap-6 text-sm font-medium text-zinc-500 px-2">
-        <div>Product Name</div>
-        <div>MRP</div>
-        <div>Quantity</div>
-        <div>Price</div>
-        <div>Amount</div>
-      </div>
+    <!-- Column Labels -->
+<div class="hidden md:grid grid-cols-6 gap-6 text-sm font-medium text-zinc-500 px-2 py-2">
+  <div class="text-left">Product Name</div>
+  
+  <div class="text-left">Quantity</div>
+  <div class="text-left">Stock Available</div>
+  <div class="text-left">MRP</div>
+  <div class="text-left">Price</div> <!-- Optional: if you have buttons -->
+  <div class="text-left">Amount</div>
+</div>
+
 
       <!-- Product list -->
       <div id="product-list" class="space-y-6"></div>
@@ -173,11 +179,27 @@
 
 
   </div>
+    <!-- Toast Notification -->
+  <div id="toast" class="hidden">
+    <div id="toastIcon"></div>
+    <span id="toastText" class="text-sm font-medium">Message</span>
+  </div>
+    <!-- Loading Overlay -->
+  <div id="loadingPopup" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-white text-gray-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3">
+      <svg class="animate-spin h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-lg font-medium">Loading, please wait...</span>
+    </div>
+  </div>
   
   <script src="https://unpkg.com/lucide@latest">
     
   </script>   
   <script>lucide.createIcons();</script>
+  <script src="loading.js"></script>
 
   <script >
      const allProducts = JSON.parse(localStorage.getItem("products"));
@@ -195,7 +217,7 @@
     
     let itemArray = []
 
-    
+    let AvailableStock;
     function newItem(){
       
       let itemNo = itemArray.length+1
@@ -206,9 +228,10 @@
   <div class="text-sm font-medium text-white">
     ${itemID}
   </div>
-
+<div id='${itemID}-id' >
+   
   <!-- Inputs Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
     <!-- Product Name with Suggestions -->
     <div class="relative w-full">
       <input
@@ -223,14 +246,6 @@
       </ul>
     </div>
 
-    <!-- MRP -->
-    <input
-      type="number"
-      id="${itemID}-MRP"
-      placeholder="MRP"
-      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
-    />
-
     <!-- Quantity -->
     <input
       type="number"
@@ -239,6 +254,24 @@
       min="1"
       class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
     />
+            <!-- Stock Available -->
+    <input
+      type="number"
+      id="${itemID}-stock"
+      placeholder="Available Stock"
+      min="1" disabled
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+    />
+
+    <!-- MRP -->
+    <input
+      type="number"
+      id="${itemID}-MRP"
+      placeholder="MRP"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+    />
+
+  
 
     <!-- Price -->
     <input
@@ -258,10 +291,31 @@
     />
   </div>
 </div>
+</div>
 
         `;
         itemArray.push(itemID)
         document.getElementById("product-list").insertAdjacentHTML("beforeend", productFields);
+
+        document.getElementById(`${itemID}-qty`).addEventListener("input" , async (e) => {
+          
+          let qty = e.target.value.trim()
+          document.getElementById(`${itemID}-ammount`).value=qty*(document.getElementById(`${itemID}-Price`).value)
+          if(qty<=AvailableStock){
+          document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
+          }else{
+            qty=AvailableStock
+            // window.alert("You Are Choosing more quantity than present in your Inventory")
+            window.alert("You Are Choosing more quantity than present in your Inventory")
+            document.getElementById(`${itemID}-qty`).value=AvailableStock
+
+            
+          }
+          
+          doSubTotal()
+          // addTotal(productAmount)
+      
+        })
        productSuggestions()
     }
      
@@ -269,23 +323,28 @@
         document.addEventListener("DOMContentLoaded", newItem())
 
 
-          function createSuggestionItem(prodNameLocation,prodMRPLocation,prodPriceLocation,productQtyLocation,productAmountLoaction,SubTotalAmountLocation,prodName,prodMRP,prodPrice, ul) {
+          function createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,prodName,prodMRP,prodPrice,stockqty,id, ul) {
     const li = document.createElement("li");
     // li.id=text
     li.textContent = prodName;
     li.className = "suggestionItem px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800";
+    
     li.onclick = () => {
-      prodNameLocation.value = prodName;
-      prodMRPLocation.value = prodMRP
-      prodPriceLocation.value = prodPrice
-      productQtyLocation.value=1
-      productAmountLoaction.value=(productQtyLocation.value)*(prodPriceLocation.value)
-
+      productId.dataset.userId=id
+      productName.value = prodName;
+      productMRP.value = prodMRP
+      productPRICE.value = prodPrice
+      productQuantity.value=1
+      productAmount.value=(productQuantity.value)*(productPRICE.value)
+      productStockQty.value=stockqty - productQuantity.value
+      AvailableStock= stockqty
+      
       doSubTotal()
       ul.classList.add("hidden");
     };
     return li;
   }
+  
 
           function productSuggestions(){
       itemArray.forEach(item =>{
@@ -294,8 +353,10 @@
         let productMRP = document.getElementById(`${item}-MRP`)
         let productPRICE = document.getElementById(`${item}-Price`)
         let productQuantity = document.getElementById(`${item}-qty`)
+        let productStockQty = document.getElementById(`${item}-stock`)
         let productAmount = document.getElementById(`${item}-ammount`)
         let subTotal = document.getElementById("subTotal")
+        let productId = document.getElementById(`${item}-id`)
 
         productName.addEventListener("input",(e) => {
           let name = e.target.value.trim()
@@ -325,20 +386,16 @@
       }
        matched.forEach(match =>{
  
-         ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,match.productName,match.MRP,match.PRICE, ul));
+         ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,match.productName,match.MRP,match.PRICE,match.CurrentStock,match._id, ul));
           ul.classList.remove("hidden");
         })
     
-        productQuantity.addEventListener("input",(e)=>{
-          let qty = e.target.value.trim()
-          productAmount.value=qty*(productPRICE.value)
-          doSubTotal()
-          // addTotal(productAmount)
-        })
+       
 
         productPRICE.addEventListener("input",(e) =>{
             let price = e.target.value.trim()
              productAmount.value=productQuantity.value*(productPRICE.value)
+            
             doSubTotal()
         })
          
@@ -386,12 +443,12 @@
            ul.classList.remove("hidden")
         }
 
-        console.log(name)
+        // console.log(name)
 
         try{
           const regex = new RegExp(name,"i")
           const matched = allRetailers.filter(r => regex.test(r.RetailerName))
-          console.log(matched)
+          // console.log(matched)
         
           if(matched.length === 0 ){
             ul.classList.add("hidden")
@@ -426,7 +483,7 @@ document.getElementById("submit").addEventListener("click", async () => {
   doSubTotal()
   let retailerName=RetailerName.value
   let retailerContactNumber = document.getElementById("ContactNumber").value
-  console.log(retailerContactNumber)
+  // console.log(retailerContactNumber)
   let retailerGSTNumber= GSTNumber.value
   let retaileraddress =address.value
   let paymentMethod= PaymentMethod.value
@@ -437,12 +494,14 @@ document.getElementById("submit").addEventListener("click", async () => {
   let round = document.getElementById("roundOff").value
   let Order ;
   let itemsList = []
+  let productUpdateList =[]
   itemArray.forEach(item =>{
  let productName = document.getElementById(`${item}-name`).value
         let productMRP = document.getElementById(`${item}-MRP`).value
         let productPRICE = document.getElementById(`${item}-Price`).value
         let productQuantity = document.getElementById(`${item}-qty`).value
         let productAmount = document.getElementById(`${item}-ammount`).value
+        let productId = document.getElementById(`${item}-id`)
        
 
       itemsList.push({
@@ -470,6 +529,7 @@ if(!retailerName || !retailerContactNumber || !retailerGSTNumber || !retaileradd
     }
 
 }
+
 if(FinalTotal == "NaN"){
     console.log("Please add product first")
 }else{
@@ -481,6 +541,11 @@ if(FinalTotal == "NaN"){
             let productPRICE = document.getElementById(`${item}-Price`).value
             let productQuantity = document.getElementById(`${item}-qty`).value
             let productAmount = document.getElementById(`${item}-ammount`).value
+            let productId = document.getElementById(`${item}-id`).dataset.userId
+            productUpdateList.push({
+              productId:productId,
+              newStock:document.getElementById(`${item}-stock`).value
+            })
             newArray.push({
           productName,
           productMRP,
@@ -506,15 +571,18 @@ if(FinalTotal == "NaN"){
   }
 
   console.log(Order)
+  updateAvailableStock(productUpdateList)
   await generateBill(Order)
+  
   let invoice = await CurrentInvoiceNumber()
   
 
   console.log(invoice)
 
- window.open(`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`, "_blank");
-  window.location.href=`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`
-window.location.reload();
+//  window.open(`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`, "_blank");
+//  window.open(`https://bill-daddy-omega.vercel.app/bill3.html?I=${invoice}`, "_blank");
+//   // window.location.href=`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`
+// window.location.reload();
     }
 }
   
@@ -523,7 +591,7 @@ window.location.reload();
 })
 
 function doSubTotal(){
-    console.log(itemArray)
+    // console.log(itemArray)
    SubTotalAmount=0
   itemArray.forEach(item=>{
      
@@ -555,18 +623,26 @@ function doSubTotal(){
 
     async function fetchProductData() {
       try {
-        const req = await fetch("http://localhost:3004/api/v1/users/check", {
+        const req = await fetch("http://localhost:3004/api/v1/users/fetchProductData", {
           method: "GET"
 
         })
         const data = await req.json()
         const d = data.data
-        d.sort((a, b) => {
+      if (data.message == "success") {
+         d.sort((a, b) => {
           return a.productName.localeCompare(b.productName);
         });
         // console.log(d)
         localStorage.setItem("products", JSON.stringify(d));
-        return data;
+        
+       await showToast("success", "Successfully Fetched Product Data");
+       return data;
+      }else{
+        showToast("error", "Request failed: " + data.message);
+      }
+
+       
       } catch (error) {
         console.log(`error occured while fetching data : - ${error}`)
       }
@@ -593,16 +669,21 @@ function doSubTotal(){
 
     async function generateBill(Order){
       try{
-        const req = await fetch("http://localhost:3004/api/v1/users/generateBill ",{
+        const req = await fetch("http://localhost:300ww4s/api/v1/users/generateBill ",{
           method:"POST",
           headers:{
             "Content-Type" : "application/json"
           },
           body:JSON.stringify({Order})
         })
-
+         
         const data = await req.json()
-        console.log(data)
+        console.log(data.message)
+        if(data.message == "success"){
+           showToast("success", "Successfully Generated Bill");
+        }else{
+           showToast("error", "Request failed: " + err.message);
+        }
       }catch(error){
         console.log(error)
       }
@@ -620,6 +701,27 @@ function doSubTotal(){
         console.log(data.data)
         return data.data
 
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+   async function updateAvailableStock(newAvailableStock){
+      console.log(newAvailableStock)
+      try{
+        let req = await fetch("http://localhost:3004/api/v1/users/updateAvailableStock" , {
+           method:"POST",
+           headers:{
+            "Content-Type":"application/json"
+           },
+           body:JSON.stringify({newAvailableStock})
+        })
+        const data = await req.json()
+        console.log(data.message)
+        if(data.message == "success"){
+           showToast("success", "Successfully updated");
+        }
+        
       }catch(error){
         console.log(error)
       }

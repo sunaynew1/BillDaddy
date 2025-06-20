@@ -45,6 +45,10 @@
     <a href="manageProducts.html" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
       <i data-lucide="box" class="w-5 h-5"></i> Manage Products
     </a>
+           <!-- Manage inventory -->
+    <a href="manageInventory.html" class="w-full p-3 rounded-xl  flex items-center gap-2 hover:bg-[#B6F500] text-white hover:text-black transition-all">
+      <i data-lucide="warehouse" class="w-5 h-5"></i> Manage Inventory
+    </a>
 
     <!-- Settings -->
     <a href="#" class="w-full p-3 rounded-xl text-white flex items-center gap-2 hover:bg-[#B6F500] hover:text-black transition-all">
@@ -130,7 +134,24 @@
     </div>
   </div>
 
+    <!-- Toast Notification -->
+  <div id="toast" class="hidden">
+    <div id="toastIcon"></div>
+    <span id="toastText" class="text-sm font-medium">Message</span>
+  </div>
+    <!-- Loading Overlay -->
+  <div id="loadingPopup" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+    <div class="bg-white text-gray-800 px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3">
+      <svg class="animate-spin h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+      </svg>
+      <span class="text-lg font-medium">Loading, please wait...</span>
+    </div>
+  </div>
+<script src="loading.js"></script>
   <script>
+    
     let retailerName
     let BillNo
     let retailerNameSearch
@@ -139,7 +160,7 @@
       document.getElementById("billResults").innerHTML = ""
       retailerName = document.getElementById("searchName").value
       BillNo = document.getElementById("searchInvoice").value
-
+      
       if (retailerName != "") {
 
         retailerNameSearch = await fetchRetailerDataThroughRetailerName(retailerName)
@@ -196,7 +217,7 @@
                 <td class="px-4 py-2">₹${data.TotalAmount}</td>
                 
                 <td class="px-4 py-2">
-                  <button onclick="window.open('https://bill-daddy-omega.vercel.app/bill2.html?I=${data.InvoiceNo}', '_blank');" class=" billLink text-blue-600 hover:underline">View</button>
+                  <button onclick="window.open('http://127.0.0.1:3005/bill2.html?I=${data.InvoiceNo}', '_blank');" class=" billLink text-blue-600 hover:underline">View</button>
                 </td>
                 <td id="${data.InvoiceNo}-status" class="px-4 py-2 ${data.BillStatus === 'ACTIVE' ? 'text-[#B6F500]' : 'text-[#E83F25]'}">${data.BillStatus}</td>
                 <td class="px-4 py-2">
@@ -303,8 +324,16 @@
           body: JSON.stringify({ retailerName })
         })
         const data = await req.json()
+                         if(data.message == "success"){
+
+           await showToast("success", "Successfully Fetched");
+
+            return data
+        }else{
+         await showToast("error", "Request failed: " + data.message);
+        }
         // console.log(data.data)
-        return data
+       
         // return data.data
       } catch (error) {
         console.log(error)
@@ -321,7 +350,13 @@
           body: JSON.stringify({ invoiceNo })
         })
         const data = await req.json()
-        return data
+      if (data.message == "success") {
+       await showToast("success", "Successfully Fetched");
+       return data
+      }else{
+       await showToast("error", "Request failed: " + data.message);
+      }
+        
       } catch (error) {
         console.log(error)
       }
@@ -336,7 +371,12 @@
           },
           body: JSON.stringify({ invoiceNo, newStatus })
         })
-        console.log(invoiceNo)
+        const data = await req.json()
+            if (data.message == "success") {
+       await showToast("success", "Successfully Updated");
+      }else{
+       await showToast("error", "Request failed: " + data.message);
+      }
       } catch (error) {
         console.log(error)
       }

@@ -3,10 +3,7 @@ import mongoose, {Schema} from "mongoose";
 
 const productSchema = new Schema({
 
-    productId:{
-        type:Number,
-        unique:true
-    },
+  
     productName:{
        type:String,
        required : true,
@@ -23,6 +20,18 @@ const productSchema = new Schema({
        type: Number,
        required:true,
        trim:true
+    },
+    TotalPurchased:{
+        type:Number,
+        default:0
+    },
+    TotalSold:{
+        type:Number,
+        default:0
+    },
+    CurrentStock:{
+        type:Number,
+        default:0
     }
 })
 

@@ -8,30 +8,59 @@ import fs from "fs"
 import FormData from "form-data";
 import fetch from 'node-fetch';
 
-const check = asyncHandler(async (req, res) => {
+const fetchProductData = asyncHandler(async (req, res) => {
     const product = await Product.find()
-    return res.status(200).json(new ApiResponse(200, product, "successFully checked"))
+    return res.status(200).json(new ApiResponse(200, product))
 })
 
 const newProduct = asyncHandler(async (req, res) => {
-    const productId = await Product.countDocuments() + 1
-    const productName = req.body.productName
+    // const _id = await Product.countDocuments() + 1
+    const productName = req.body.name
     const MRP = req.body.mrp
     const PRICE = req.body.price
+    const TotalPurchased=req.body.newStockNumber
+    const CurrentStock = req.body.newStockNumber
 
     const product = await Product.create({
-        productId,
         productName,
         MRP,
-        PRICE
+        PRICE,
+        TotalPurchased,
+        CurrentStock
     })
     product.save();
-    return res.status(200).json(new ApiResponse(200, product, "added"))
+    return res.status(200).json(new ApiResponse(200, product))
+})
+
+const newInventory = asyncHandler(async(req,res) => {
+    const id = req.body.id
+    const name = req.body.productName
+    const Price = req.body.price
+    const mrp = req.body.mrp
+    const stock = req.body.newStockNumber
+    // console.log(id,name,Price,mrp,stock)
+     console.log(req.body)
+    // console.log(stock)
+    const prevStock =await  Product.findOne({_id:id})
+    console.log(typeof(stock))
+    const newTotal = parseInt(prevStock.TotalPurchased) + parseInt(stock)
+    const newAvailableStock = parseInt(prevStock.CurrentStock) + parseInt(stock)
+    const product = await Product.findOneAndUpdate({_id:id},{
+        // productName: name,
+        MRP: mrp,
+        PRICE: Price,
+        TotalPurchased:newTotal,
+        CurrentStock:newAvailableStock
+    })
+   
+    // product.save()
+    return res.status(201).json(new ApiResponse(201,"updated"))
+
 })
 
 const newRetailer = asyncHandler(async (req, res) => {
     const RetailerName = "Gaurav Departmental Store"
-    const ContactNumber = "+91 8619804776"
+    const ContactNumber = "+91 9799300222"
     const Address = "b76 lalkothi jaipur"
 
     const r = await retailer.create({
@@ -100,7 +129,7 @@ const generateBill = asyncHandler(async (req, res) => {
 })
 
 const fetchCurrentInvoiceNo = asyncHandler(async (req, res) => {
-    let InvoiceNo = await Bill.countDocuments() + 1;
+    let InvoiceNo = await Bill.countDocuments() ;
 
     return res.status(200).json(new ApiResponse(200, InvoiceNo))
 })
@@ -137,10 +166,19 @@ const updateStatus = asyncHandler(async (req, res) => {
 })
 
 const deleteProduct = asyncHandler(async (req, res) => {
-    const prodName = req.body.prodName
-    // const prodId = req.body.productId
-    const check = await Product.findOneAndDelete({ productId: prodName })
-    return res.status(200).json(new ApiResponse(200, check))
+    // const prodName = req.body.prodName
+    const prodId = req.body._id
+    console.log(prodId)
+    const c = await Product.findOne({_id: prodId})
+    const prodCheck = await Product.findOneAndDelete({ _id : c._id })
+    
+    // allProducts.forEach(async(product) => {
+    //     product._id = ""
+    //    await product.save()
+    // })
+
+    
+    return res.status(200).json(new ApiResponse(200, prodCheck))
 
 })
 // id,name,mrp,price
@@ -150,12 +188,12 @@ const productDetailChanges = asyncHandler(async (req, res) => {
     const mrp = req.body.mrp
     const price = req.body.price
 
-    const d = await Product.findOneAndUpdate({ productId: id }, {
+    const d = await Product.findOneAndUpdate({ _id: id }, {
         productName: name,
         MRP: mrp,
         PRICE: price
     })
-    let f = await Product.findOne({ productId: id })
+    let f = await Product.findOne({ _id: id })
     console.log(f)
     // await d.save()
     return res.status(200).json(new ApiResponse(200, f))
@@ -168,7 +206,7 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
         const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER
         console.log(accessToken, phoneNumberId)
         console.log(phoneNumberId)
-        const customerPhoneNumber = "+918619804776"
+        const customerPhoneNumber = "+91 8619804776"
 
         const mediaForm = new FormData()
 
@@ -214,9 +252,9 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
                 type: "template",
                 
       template: {
-        name: 'bill',
+        name: 'bill2',
         language: {
-          code: 'en'
+          code: 'en_us'
         },
         components: [
           {
@@ -248,8 +286,23 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
     }
 })
 
+const updateAvailableStock = asyncHandler(async (req,res) => {
+    const data = req.body.newAvailableStock
+
+    for(let product of data){
+        console.log(product)
+      let productId = product.productId
+      let newStockValue= product.newStock
+      let productData = await Product.findByIdAndUpdate({_id:productId},{
+        CurrentStock:newStockValue
+      })
+      return res.status(200).json(new ApiResponse(200,productData))
+    }
+    
+})
+
 export {
-    check,
+    fetchProductData,
     newProduct,
     newRetailer,
     fetchRetailers,
@@ -261,5 +314,7 @@ export {
     updateStatus,
     deleteProduct,
     productDetailChanges,
-    sendBillOnWhatsApp
+    sendBillOnWhatsApp,
+    newInventory,
+    updateAvailableStock
 }
