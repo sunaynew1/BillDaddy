@@ -586,7 +586,9 @@ if(FinalTotal == "NaN"){
  window.open(`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`, "_blank");
  window.open(`https://bill-daddy-omega.vercel.app/bill3.html?I=${invoice}`, "_blank");
 //   // window.location.href=`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`
-window.location.reload();
+setTimeout(() => {
+  window.location.reload();
+}, 500); // 0.5 second delay is usually enough
     }
 }
   
