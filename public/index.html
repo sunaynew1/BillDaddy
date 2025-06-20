@@ -63,8 +63,8 @@
     <!-- Seller Info -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="relative">
-        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">Seller Name</label>
-        <input type="text" id="RetailerName" required
+        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">Customer Name</label>
+        <input type="text" id="CustomerName" required
           class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
         <ul id="retailer-suggestion"
           class="hidden absolute left-0 right-0 mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-md z-50 text-sm text-zinc-800 dark:text-white max-h-60 overflow-y-auto ring-1 ring-black/5"></ul>
@@ -204,6 +204,7 @@
   <script >
      const allProducts = JSON.parse(localStorage.getItem("products"));
     const allRetailers =JSON.parse(localStorage.getItem("Retailers"));
+    console.log(allRetailers)
     let SubTotalAmount=0
     let TotalAmount;
 
@@ -409,13 +410,13 @@
       })
     }
 
-    function createRetailerSuggestionList(retailerNameLocation,retailerContactLocation,retailerGSTLocation,retailerAddressLocation,RetailerName,ContactNumber,GSTNumber,Address,ul){
+    function createRetailerSuggestionList(retailerNameLocation,retailerContactLocation,retailerGSTLocation,retailerAddressLocation,CustomerName,ContactNumber,GSTNumber,Address,ul){
       
       const li = document.createElement("li")
-      li.textContent=RetailerName
+      li.textContent=CustomerName
       li.className = " px-4 py-2 cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-800"
       li.onclick = () => {
-        retailerNameLocation.value=RetailerName
+        retailerNameLocation.value=CustomerName
         retailerContactLocation.value=ContactNumber
         retailerGSTLocation.value=GSTNumber
         retailerAddressLocation.value=Address
@@ -425,7 +426,7 @@
     }
       
     function RetailerSuggestion(){
-      let retailerNameLocation = document.getElementById("RetailerName")
+      let retailerNameLocation = document.getElementById("CustomerName")
       let retailerContactLocation = document.getElementById("ContactNumber")
       let retailerGSTLocation = document.getElementById("GSTNumber")
       let retailerAddressLocation = document.getElementById("address")
@@ -447,8 +448,9 @@
 
         try{
           const regex = new RegExp(name,"i")
-          const matched = allRetailers.filter(r => regex.test(r.RetailerName))
+          const matched = allRetailers.filter(r => regex.test(r.CustomerName))
           // console.log(matched)
+          console.log(matched)
         
           if(matched.length === 0 ){
             ul.classList.add("hidden")
@@ -458,7 +460,7 @@
           }
 
           matched.forEach(match =>{
-             ul.appendChild(createRetailerSuggestionList(retailerNameLocation,retailerContactLocation,retailerGSTLocation,retailerAddressLocation,match.RetailerName,match.ContactNumber,match.GSTNumber,match.Address,ul))
+             ul.appendChild(createRetailerSuggestionList(retailerNameLocation,retailerContactLocation,retailerGSTLocation,retailerAddressLocation,match.CustomerName,match.ContactNumber,match.GSTNumber,match.Address,ul))
           ul.classList.remove("hidden")
 
         })
@@ -481,7 +483,7 @@
 
 document.getElementById("submit").addEventListener("click", async () => {
   doSubTotal()
-  let retailerName=RetailerName.value
+  let CustomerName=document.getElementById("CustomerName").value
   let retailerContactNumber = document.getElementById("ContactNumber").value
   // console.log(retailerContactNumber)
   let retailerGSTNumber= GSTNumber.value
@@ -514,9 +516,9 @@ document.getElementById("submit").addEventListener("click", async () => {
       })
   })
 
-if(!retailerName || !retailerContactNumber || !retailerGSTNumber || !retaileraddress){
-    if(retailerName==""){
-        retailerName = "CASH"
+if(!CustomerName || !retailerContactNumber || !retailerGSTNumber || !retaileraddress){
+    if(CustomerName==""){
+        CustomerName = "CASH"
        
 
     }
@@ -557,7 +559,7 @@ if(FinalTotal == "NaN"){
     })
     if(newArray.length != 0){
      Order = {
-    retailerName :retailerName,
+    CustomerName :CustomerName,
     retailerContactNumber:retailerContactNumber,
     retailerGSTNumber:retailerGSTNumber,
     retaileraddress:retaileraddress,
@@ -573,6 +575,7 @@ if(FinalTotal == "NaN"){
   console.log(Order)
   updateAvailableStock(productUpdateList)
   await generateBill(Order)
+  await newRetailer(CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress)
   
   let invoice = await CurrentInvoiceNumber()
   
@@ -599,6 +602,8 @@ function doSubTotal(){
     console.log(`check value ${check} check type : ${typeof(check)}`)
     if(check === NaN || check === "NaN" || check == ""){
       console.log("skipping NaN")
+    showToast("error", "Add Items First!!!")
+
     }else{
         let productAmount = parseInt(document.getElementById(`${item}-ammount`).value)
                 SubTotalAmount=SubTotalAmount+productAmount
@@ -651,13 +656,12 @@ function doSubTotal(){
         async function fetchRetailerData() {
       try {
         const req = await fetch("http://localhost:3004/api/v1/users/fetchRetailers", {
-          method: "POST"
-
+          method: "GET",
         })
         const data = await req.json()
         const d = data.data
         d.sort((a, b) => {
-          return a.RetailerName.localeCompare(b.RetailerName);
+          return a.CustomerName.localeCompare(b.CustomerName);
         });
         // console.log(d)
         localStorage.setItem("Retailers", JSON.stringify(d));
@@ -726,7 +730,27 @@ function doSubTotal(){
         console.log(error)
       }
     }
+
+    async function newRetailer(CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress){
+      try{
+        const req = await fetch("http://localhost:3004/api/v1/users/addRetailer" , {
+          method:"POST",
+          headers:{
+            "Content-Type": "application/json"
+          },  
+          body: JSON.stringify({CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress})
+        })
+        const data = await req.json()
+        console.log(data)
+        localStorage.removeItem("Retailers")
+       await fetchRetailerData()
+      }catch(error){
+        console.log(error)
+      }
+    }
    
+    
+
     fetchProductData()
     fetchRetailerData()
 

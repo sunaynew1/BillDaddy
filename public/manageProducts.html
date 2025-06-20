@@ -83,7 +83,7 @@
             <div class="relative">
               <label for="searchName" class="block text-sm text-zinc-400 mb-1">Product Name</label>
               <input type="text" id="searchName" placeholder="Enter Product Name"
-                class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-2.5 focus:ring-2 focus:ring-blue-500 outline-none text-white" />
+                class="w-full rounded-xl bg-zinc-800 border border-zinc-700 px-4 py-2.5 focus:ring-2 focus:ring-[#B6F500] outline-none text-white" />
               <ul id="Product-suggestion"
                 class="hidden absolute left-0 right-0 mt-1 bg-zinc-900 border border-zinc-700 rounded-xl shadow-md z-50 text-sm max-h-60 overflow-y-auto ring-1 ring-black/5">
               </ul>
@@ -173,31 +173,31 @@
   <td class="px-4 py-3">
     <div class="relative">
       <input type="text" placeholder="Product Name" id='${item._id}-name' value='${item.productName}'
-        class="w-full text-wrap rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+        class="w-full text-wrap rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
     </div>
   </td>
 
   <td class="px-4 py-3">
     <input type="number" placeholder="MRP" id='${item._id}-mrp' value='${item.MRP}'
-      class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+      class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   </td>
 
   <td class="px-4 py-3">
     <input type="number" placeholder="Price" id='${item._id}-price' value='${item.PRICE}'
-      class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+      class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   </td>
 
  <td class="px-4 py-3">
     <input type="number" placeholder="Price" id='${item._id}-price' value='${item.TotalPurchased}' disabled
-      class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+      class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   </td>
    <td class="px-4 py-3">
     <input type="number" placeholder="Price" id='${item._id}-price' value='${item.TotalSold}' disabled
-      class="w-full rounded-lg bg-zinc-800 text-wrap border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+      class="w-full rounded-lg bg-zinc-800 text-wrap border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   </td>
    <td class="px-4 py-3">
     <input type="number" placeholder="Price" id='${item._id}-price' value='${item.CurrentStock}' disabled
-      class="w-full rounded-lg bg-zinc-800 border text-wrap border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+      class="w-full rounded-lg bg-zinc-800 border text-wrap border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   
   <!-- Remove Button -->
   <td class="mx-0 py-3 text-center">
@@ -325,7 +325,7 @@
   //                     <td class="px-4 py-3">
   //                         <div class="relative">
   //                             <input type="text" placeholder="Product Name" value='${allProducts[i].productName}'
-  //                                 class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+  //                                 class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   //                             <ul
   //                                 class="suggestions hidden absolute inset-x-0 top-full mt-1 bg-zinc-900 border border-zinc-700 rounded-xl shadow-md z-50 text-sm text-white max-h-60 overflow-y-auto ring-1 ring-black/5">
   //                             </ul>
@@ -333,11 +333,11 @@
   //                     </td>
   //                     <td class="px-4 py-3">
   //                         <input type="number" placeholder="MRP" value='${allProducts[i].MRP}'
-  //                             class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+  //                             class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   //                     </td>
   //                     <td class="px-4 py-3">
   //                         <input type="number" placeholder="Price" value='${allProducts[i].PRICE}'
-  //                             class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition" />
+  //                             class="w-full rounded-lg bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   //                     </td>
   //                      <!-- Remove Button -->
   //                     <td class="mx-0 py-3 text-center">

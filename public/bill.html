@@ -29,7 +29,7 @@
         
     </div>
       <h2 class="font-semibold text-xl ">Billed To:</h2>
-      <p>Name: <span class="font-medium" id="retailerName"></span></p>
+      <p>Name: <span class="font-medium" id="CustomerName"></span></p>
       <p>GSTIN: <span class="font-medium" id="retailerGst"></span></p>
       <p>Phone: <span class="font-medium" id="retailerContact"></span></p>
       <p>Address: <span class="font-medium" id="retailerAddress"></span></p>
@@ -124,7 +124,7 @@
             console.log(items)
 
         //Variables
-        const retailerName = document.getElementById("retailerName")    
+        const CustomerName = document.getElementById("CustomerName")    
         const retailerGst = document.getElementById("retailerGst")    
         const retailerContact = document.getElementById("retailerContact")    
         const retailerAddress = document.getElementById("retailerAddress")    
@@ -138,7 +138,7 @@
         
                 //assigning data value
         
-        retailerName.textContent=data.data.RetailerName
+        CustomerName.textContent=data.data.CustomerName
         retailerGst.textContent = data.data.GSTNumber
         retailerContact.textContent=data.data.ContactNumber
         retailerAddress.textContent=data.data.Address

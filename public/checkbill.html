@@ -152,21 +152,25 @@
 <script src="loading.js"></script>
   <script>
     
-    let retailerName
+    let CustomerName
     let BillNo
     let retailerNameSearch
     let invoiceNoSearch
     document.getElementById("btn-search").addEventListener("click", async () => {
       document.getElementById("billResults").innerHTML = ""
-      retailerName = document.getElementById("searchName").value
+      CustomerName = document.getElementById("searchName").value
       BillNo = document.getElementById("searchInvoice").value
       
-      if (retailerName != "") {
+      if(CustomerName == "" || BillNo == ""){
+        return showToast("error", " First Add Parameter To Search")
+      }
+      if (CustomerName != "") {
+      
 
-        retailerNameSearch = await fetchRetailerDataThroughRetailerName(retailerName)
+        retailerNameSearch = await fetchRetailerDataThroughRetailerName(CustomerName)
         dataRow(retailerNameSearch)
       } else if (BillNo != "") {
-        // retailerName = ""
+        // CustomerName = ""
         invoiceNoSearch = await fetchRetailerDataThroughinvoiceNo(BillNo)
         console.log(invoiceNoSearch)
         dataRow(invoiceNoSearch)
@@ -212,7 +216,7 @@
         const row = `
                      <tr class="border-b border-zinc-200 dark:border-zinc-800">
                 <td class="px-4 py-2">${data.InvoiceNo}</td>
-                <td class="px-4 py-2">${data.RetailerName}</td>
+                <td class="px-4 py-2">${data.CustomerName}</td>
                 <td class="px-4 py-2">${date}</td>
                 <td class="px-4 py-2">₹${data.TotalAmount}</td>
                 
@@ -238,15 +242,15 @@
           
           if (data.BillStatus == "ACTIVE" && value == "CANCELLED") {
           await  updateStatus(data.InvoiceNo, "CANCELLED")
-          if(retailerName != ""){
-            const newData= await fetchRetailerDataThroughRetailerName(retailerName) 
+          if(CustomerName != ""){
+            const newData= await fetchRetailerDataThroughRetailerName(CustomerName) 
              await dataRow(newData)
           }else if(BillNo != ""){
              const newData=  await fetchRetailerDataThroughinvoiceNo(BillNo) 
             console.log(newData)
            await dataRow(newData)
           }
-          //   const newData= await fetchRetailerDataThroughRetailerName(retailerName) || await fetchRetailerDataThroughinvoiceNo(BillNo) 
+          //   const newData= await fetchRetailerDataThroughRetailerName(CustomerName) || await fetchRetailerDataThroughinvoiceNo(BillNo) 
           //   console.log(newData)
           //  await dataRow(newData)
             // dataRow(document.getElementById("searchName"))
@@ -255,8 +259,8 @@
           }
           else if (data.BillStatus == "CANCELLED" && value == "ACTIVE") {
            await updateStatus(data.InvoiceNo, "ACTIVE")
-            if(retailerName != ""){
-            const newData= await fetchRetailerDataThroughRetailerName(retailerName) 
+            if(CustomerName != ""){
+            const newData= await fetchRetailerDataThroughRetailerName(CustomerName) 
              await dataRow(newData)
           }else if(BillNo != ""){
              const newData=  await fetchRetailerDataThroughinvoiceNo(BillNo) 
@@ -290,7 +294,7 @@
 
         try {
           const regex = new RegExp(name, "i")
-          const matched = allRetailers.filter(r => regex.test(r.RetailerName))
+          const matched = allRetailers.filter(r => regex.test(r.CustomerName))
           console.log(matched)
           if (matched.length === 0) {
             ul.classList.add("hidden")
@@ -300,7 +304,7 @@
           }
 
           matched.forEach(match => {
-            ul.appendChild(createRetailerSuggestionList(retailerNameLocation, match.RetailerName, ul))
+            ul.appendChild(createRetailerSuggestionList(retailerNameLocation, match.CustomerName, ul))
             //  ul.classList.remove("hidden")
           })
         } catch (error) {
@@ -314,14 +318,14 @@
     }
     RetailerSuggestions()
 
-    async function fetchRetailerDataThroughRetailerName(retailerName) {
+    async function fetchRetailerDataThroughRetailerName(CustomerName) {
       try {
         const req = await fetch("http://localhost:3004/api/v1/users/fetchBillsThroughRetailerName", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ retailerName })
+          body: JSON.stringify({ CustomerName })
         })
         const data = await req.json()
                          if(data.message == "success"){

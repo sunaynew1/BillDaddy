@@ -1609,6 +1609,10 @@ video {
   --tw-ring-color: rgb(34 197 94 / var(--tw-ring-opacity, 1));
 }
 
+.focus\:ring-\[\]:focus {
+  --tw-ring-color: ;
+}
+
 @media (min-width: 768px) {
   .md\:grid {
     display: grid;

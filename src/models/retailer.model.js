@@ -3,7 +3,7 @@ import mongoose ,{Schema} from "mongoose";
 
 const retailerSchema = new Schema({
 
-    RetailerName:{
+    CustomerName:{
         type:String,
         required:true,
         

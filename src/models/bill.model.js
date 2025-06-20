@@ -12,7 +12,7 @@ const billSchema = new Schema({
         default:"ACTIVE"
     },
 
-    RetailerName:{
+    CustomerName:{
         type:String,
         required:true
     },

@@ -59,21 +59,26 @@ const newInventory = asyncHandler(async(req,res) => {
 })
 
 const newRetailer = asyncHandler(async (req, res) => {
-    const RetailerName = "Gaurav Departmental Store"
-    const ContactNumber = "+91 9799300222"
-    const Address = "b76 lalkothi jaipur"
+    const CustomerName = req.body.CustomerName|| "CASH"
+    const ContactNumber = req.body.retailerContactNumber || ""
+    const Address = req.body.retaileraddress || ""
+    const GSTNumber =  req.body.retailerGSTNumber || ""
+
+// CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress
 
     const r = await retailer.create({
-        RetailerName,
+        CustomerName,
         ContactNumber,
-        Address
+        Address,
+        GSTNumber
     })
     r.save();
-    return res.status(200).json(new ApiResponse(200, r, "successfully fetched"))
+    return res.status(200).json(new ApiResponse(200, r))
 
 })
 
 const fetchRetailers = asyncHandler(async (req, res) => {
+    console.log("reached fetch retailers ")
     const data = await retailer.find()
     return res.status(200).json(new ApiResponse(200, data, "successfully fetched"))
 })
@@ -84,7 +89,7 @@ const generateBill = asyncHandler(async (req, res) => {
         const Data = req.body.Order
         //  console.log(Data)
         const InvoiceNo = await Bill.countDocuments() + 1;
-        const RetailerName = Data.retailerName
+        const CustomerName = Data.CustomerName
         const ContactNumber = Data.retailerContactNumber
         const GSTNumber = Data.retailerGSTNumber
         const Address = Data.retaileraddress
@@ -108,7 +113,7 @@ const generateBill = asyncHandler(async (req, res) => {
         // console.log(InvoiceNo)
         const saveBill = await Bill.create({
             InvoiceNo,
-            RetailerName,
+            CustomerName,
             ContactNumber,
             GSTNumber,
             Address,
@@ -143,15 +148,15 @@ const fetchCompleteBillThroughInvoice = asyncHandler(async (req, res) => {
 
 const fetchBillsThroughRetailerName = asyncHandler(async (req, res) => {
     console.log("asdads")
-    const retailerName = req.body.retailerName
-    const data = await Bill.find({ RetailerName: retailerName }).select("RetailerName PaymentMethod TotalAmount createdAt InvoiceNo BillStatus ")
+    const CustomerName = req.body.CustomerName
+    const data = await Bill.find({ CustomerName: CustomerName }).select("CustomerName PaymentMethod TotalAmount createdAt InvoiceNo BillStatus ")
     console.log(data)
     return res.status(200).json(new ApiResponse(200, data))
 })
 const fetchBillsThroughInvoice = asyncHandler(async (req, res) => {
     console.log("asdads")
     const invoiceNo = req.body.invoiceNo
-    const data = await Bill.find({ InvoiceNo: invoiceNo }).select("RetailerName PaymentMethod TotalAmount createdAt InvoiceNo BillStatus ")
+    const data = await Bill.find({ InvoiceNo: invoiceNo }).select("CustomerName PaymentMethod TotalAmount createdAt InvoiceNo BillStatus ")
     console.log(data)
     return res.status(200).json(new ApiResponse(200, data))
 })
