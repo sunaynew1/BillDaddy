@@ -585,7 +585,7 @@ if(FinalTotal == "NaN"){
  window.open(`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`, "_blank");
 //  window.open(`https://bill-daddy-omega.vercel.app/bill3.html?I=${invoice}`, "_blank");
 //   // window.location.href=`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`
-// window.location.reload();
+window.location.reload();
     }
 }
   
@@ -673,7 +673,7 @@ function doSubTotal(){
 
     async function generateBill(Order){
       try{
-        const req = await fetch("http://localhost:300ww4s/api/v1/users/generateBill ",{
+        const req = await fetch("http://localhost:3004/api/v1/users/generateBill ",{
           method:"POST",
           headers:{
             "Content-Type" : "application/json"
