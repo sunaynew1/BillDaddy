@@ -582,19 +582,22 @@ if(FinalTotal == "NaN"){
   
 
   console.log(invoice)
+ const bill2 = window.open(`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`, "_blank");
+    const bill3 = window.open(`https://bill-daddy-omega.vercel.app/bill3.html?I=${invoice}`, "_blank");
 
- window.open(`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`, "_blank");
- window.open(`https://bill-daddy-omega.vercel.app/bill3.html?I=${invoice}`, "_blank");
-//   // window.location.href=`https://bill-daddy-omega.vercel.app/bill2.html?I=${invoice}`
-setTimeout(() => {
-  window.location.reload();
-}, 500); // 0.5 second delay is usually enough
+    // Only reload if both tabs successfully opened
+    if (bill2 && bill3) {
+      window.location.reload();
+    } else {
+      alert("Please allow popups for this site in your browser.");
     }
+  }
 }
-  
+})
+ 
   // window.location.href=`k.html/${CurrentInvoiceNo}`
 
-})
+
 
 function doSubTotal(){
     // console.log(itemArray)
