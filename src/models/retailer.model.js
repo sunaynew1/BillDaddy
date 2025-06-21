@@ -15,7 +15,7 @@ const retailerSchema = new Schema({
     GSTNumber : {
     type:String,
     default:"None",
-    unique: true
+   
     },
     Address:{
         type:String,

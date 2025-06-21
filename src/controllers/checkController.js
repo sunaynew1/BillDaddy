@@ -95,12 +95,13 @@ const generateBill = asyncHandler(async (req, res) => {
         const Address = Data.retaileraddress
         const PaymentMethod = Data.paymentMethod
         const items = Data.items
+        // const productMetric = Data.productMetric
         let Cgst = Data.Cgst
         let Sgst = Data.Sgst
         let roundOff = Data.roundOff
         let subTotal = Data.SubTotal
         let TotalAmount = Data.TotalAmount
-        console.log(items)
+        // console.log(items)
         // const items = [{
         //     ProductName: Data.productName,
         //     ProductMRP:Data.productMRP,
@@ -108,7 +109,7 @@ const generateBill = asyncHandler(async (req, res) => {
         //     ProductPrice:Data.productPRICE,
         //     ProductAmount:Data.productAmount
         // }]
-
+       console.log(Data.items[0].productMetric)
 
         // console.log(InvoiceNo)
         const saveBill = await Bill.create({

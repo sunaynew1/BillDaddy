@@ -106,10 +106,11 @@
       </h2>
 
     <!-- Column Labels -->
-<div class="hidden md:grid grid-cols-6 gap-6 text-sm font-medium text-zinc-500 px-2 py-2">
+<div class="hidden md:grid grid-cols-7 gap-5 text-sm font-medium text-zinc-500 px-2 py-2">
   <div class="text-left">Product Name</div>
   
   <div class="text-left">Quantity</div>
+  <div class="text-left">Metric</div>
   <div class="text-left">Stock Available</div>
   <div class="text-left">MRP</div>
   <div class="text-left">Price</div> <!-- Optional: if you have buttons -->
@@ -203,6 +204,8 @@
   <script src="loading.js"></script>
 
   <script >
+      fetchRetailerData()
+      fetchProductData()
      const allProducts = JSON.parse(localStorage.getItem("products"));
     const allRetailers =JSON.parse(localStorage.getItem("Retailers"));
     console.log(allRetailers)
@@ -233,7 +236,7 @@
 <div id='${itemID}-id' >
    
   <!-- Inputs Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
     <!-- Product Name with Suggestions -->
     <div class="relative w-full">
       <input
@@ -255,8 +258,14 @@
       placeholder="Quantity"
       min="1"
       class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
-    />
+      />
+      <select id='${itemID}-metric' class="bg-[#18181b] border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-[#18181b] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                          <option selected value="Pcs">Pcs</option>
+                          <option value="gm" >gm</option>
+                          <option value="Kg">Kg</option>
+                        </select>
             <!-- Stock Available -->
+
     <input
       type="number"
       id="${itemID}-stock"
@@ -302,17 +311,21 @@
         document.getElementById(`${itemID}-qty`).addEventListener("input" , async (e) => {
           
           let qty = e.target.value.trim()
-          document.getElementById(`${itemID}-ammount`).value=qty*(document.getElementById(`${itemID}-Price`).value)
-          if(qty<=AvailableStock){
-          document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
-          }else{
-            qty=AvailableStock
-            // window.alert("You Are Choosing more quantity than present in your Inventory")
-            window.alert("You Are Choosing more quantity than present in your Inventory")
-            document.getElementById(`${itemID}-qty`).value=AvailableStock
+          let metric = document.getElementById(`${itemID}-metric`).value
+          if(metric != "gm" && metric!= "Kg"){
+            document.getElementById(`${itemID}-ammount`).value=qty*(document.getElementById(`${itemID}-Price`).value)
+          }
+         
+          // if(qty<=AvailableStock){
+          // document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
+          // }else{
+          //   qty=AvailableStock
+          //   // window.alert("You Are Choosing more quantity than present in your Inventory")
+          //   window.alert("You Are Choosing more quantity than present in your Inventory")
+          //   document.getElementById(`${itemID}-qty`).value=AvailableStock
 
             
-          }
+          // }
           
           doSubTotal()
           // addTotal(productAmount)
@@ -325,7 +338,7 @@
         document.addEventListener("DOMContentLoaded", newItem())
 
 
-          function createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,prodName,prodMRP,prodPrice,stockqty,id, ul) {
+          function createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,prodMetric,prodName,prodMRP,prodPrice,stockqty,id,metric, ul) {
     const li = document.createElement("li");
     // li.id=text
     li.textContent = prodName;
@@ -337,6 +350,7 @@
       productMRP.value = prodMRP
       productPRICE.value = prodPrice
       productQuantity.value=1
+      
       productAmount.value=(productQuantity.value)*(productPRICE.value)
       productStockQty.value=stockqty - productQuantity.value
       AvailableStock= stockqty
@@ -359,6 +373,7 @@
         let productAmount = document.getElementById(`${item}-ammount`)
         let subTotal = document.getElementById("subTotal")
         let productId = document.getElementById(`${item}-id`)
+        let productMetric = document.getElementById(`${item}-metric`)
 
         productName.addEventListener("input",(e) => {
           let name = e.target.value.trim()
@@ -388,17 +403,35 @@
       }
        matched.forEach(match =>{
  
-         ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,match.productName,match.MRP,match.PRICE,match.CurrentStock,match._id, ul));
+         ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,productMetric,match.productName,match.MRP,match.PRICE,match.CurrentStock,match._id, match.productMetric,ul));
           ul.classList.remove("hidden");
         })
-    
+              
+        productMetric.addEventListener("input", (e)=> {
+          
+          let metric =  e.target.value
+          console.log(metric)
+           if(metric != "gm" && metric != "Kg"){
+            productAmount.value=productQuantity.value*(productPRICE.value)         
+            doSubTotal()
+            }else{
+              productAmount.value=productPRICE.value
+              doSubTotal()
+            }
+        })
        
 
         productPRICE.addEventListener("input",(e) =>{
+             console.log(productMetric.value)
             let price = e.target.value.trim()
-             productAmount.value=productQuantity.value*(productPRICE.value)
-            
+            if(productMetric.value != "gm" && productMetric.value != "Kg"){
+            productAmount.value=productQuantity.value*(productPRICE.value)         
             doSubTotal()
+            }else{
+              productAmount.value=productPRICE.value
+              doSubTotal()
+            }
+             
         })
          
         }catch(error){
@@ -505,6 +538,7 @@ document.getElementById("submit").addEventListener("click", async () => {
         let productQuantity = document.getElementById(`${item}-qty`).value
         let productAmount = document.getElementById(`${item}-ammount`).value
         let productId = document.getElementById(`${item}-id`)
+        let productMetric = document.getElementById(`${item}-metric`).value
        
 
       itemsList.push({
@@ -512,8 +546,8 @@ document.getElementById("submit").addEventListener("click", async () => {
           productMRP,
           productQuantity,
           productPRICE,
-          productAmount
-        
+          productAmount,
+          productMetric
       })
   })
 
@@ -545,6 +579,7 @@ if(FinalTotal == "NaN"){
             let productQuantity = document.getElementById(`${item}-qty`).value
             let productAmount = document.getElementById(`${item}-ammount`).value
             let productId = document.getElementById(`${item}-id`).dataset.userId
+            let productMetric = document.getElementById(`${item}-metric`).value
             productUpdateList.push({
               productId:productId,
               newStock:document.getElementById(`${item}-stock`).value
@@ -554,6 +589,7 @@ if(FinalTotal == "NaN"){
           productMRP,
           productQuantity,
           productPRICE,
+          productMetric,
           productAmount   
             })
           }
@@ -565,6 +601,7 @@ if(FinalTotal == "NaN"){
     retailerGSTNumber:retailerGSTNumber,
     retaileraddress:retaileraddress,
     paymentMethod:paymentMethod,
+    
     items:newArray,
     SubTotal:subTotal,
     Cgst:Cgst,
@@ -576,7 +613,7 @@ if(FinalTotal == "NaN"){
   console.log(Order)
   updateAvailableStock(productUpdateList)
   await generateBill(Order)
-  await newRetailer(CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress)
+  // await newRetailer(CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress)
   
   let invoice = await CurrentInvoiceNumber()
   
@@ -757,8 +794,8 @@ function doSubTotal(){
    
     
 
-    fetchProductData()
-    fetchRetailerData()
+    // fetchProductData()
+    // fetchRetailerData()
 
  
 

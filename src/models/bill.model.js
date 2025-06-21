@@ -47,7 +47,11 @@ const billSchema = new Schema({
         },
         productAmount:{
             type:Number
+        },
+        productMetric:{
+            type:String
         }
+
     }],
     subTotal:{
         type:Number
