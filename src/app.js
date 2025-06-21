@@ -5,9 +5,9 @@ import router from "./routes/routes.js"
 
 const app = express()
 app.use(cors({
-    // origin: ["http://127.0.0.1:3004",
-    //           "https://quiet-geese-leave.loca.lt"
-    // ],
+    origin: ["http://127.0.0.1:3004",
+              "https://bill-daddy-omega.vercel.app"
+    ],
     credentials: true
 }))
 
