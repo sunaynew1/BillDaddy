@@ -1,8 +1,8 @@
-// {
-//   "rewrites": [
-//     {
-//       "source": "/api/:path*",
-//       "destination": "https://billdaddy.railway.internal/api/:path*"
-//     }
-//   ]
-// }
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://billdaddy.railway.internal/api/:path*"
+    }
+  ]
+}
