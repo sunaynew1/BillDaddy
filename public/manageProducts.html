@@ -374,7 +374,7 @@
     console.log("delete clicked")
     console.log(_id)
     try {
-      const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/deleteProduct", {
+      const req = await fetch("http://localhost:3004/api/v1/users/deleteProduct", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -395,7 +395,7 @@
 
   async function fetchProductData() {
     try {
-      const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/fetchProductData", {
+      const req = await fetch("http://localhost:3004/api/v1/users/fetchProductData", {
         method: "GET"
 
       })
@@ -423,7 +423,7 @@
   async function productDetailChanges(id, name, mrp, price) {
     console.log(id, name, mrp, price)
     try {
-      const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/productDetailChanges", {
+      const req = await fetch("http://localhost:3004/api/v1/users/productDetailChanges", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -451,7 +451,7 @@
 
   // async function newProduct(productName, mrp, price) {
   //   try {
-  //     const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/addProduct", {
+  //     const req = await fetch("http://localhost:3004/api/v1/users/addProduct", {
   //       method: "POST",
   //       headers: {
   //         "Content-Type": "application/json"

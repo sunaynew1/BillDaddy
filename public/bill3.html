@@ -40,7 +40,7 @@
 
     async function fetchData() {
       try {
-        const res = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/fetchCompleteBillThroughInvoice", {
+        const res = await fetch("http://localhost:3004/api/v1/users/fetchCompleteBillThroughInvoice", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ BillNo })
@@ -172,7 +172,7 @@
 
     async function callWA(formData) {
       try {
-        const res = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/sendBillOnWhatsApp", {
+        const res = await fetch("http://localhost:3004/api/v1/users/sendBillOnWhatsApp", {
           method: "POST",
           body: formData
         });

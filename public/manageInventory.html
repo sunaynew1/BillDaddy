@@ -311,7 +311,7 @@
 
             // console.log(id,productName, mrp, price,newStockNumber)
             try {
-                const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/addProduct", {
+                const req = await fetch("http://localhost:3004/api/v1/users/addProduct", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -333,7 +333,7 @@
 
         async function updateInventory(id, productName, mrp, price, newStockNumber) {
             try {
-                const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/updateInventory", {
+                const req = await fetch("http://localhost:3004/api/v1/users/updateInventory", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -355,7 +355,7 @@
 
         async function fetchProductList(){
                 try {
-        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/fetchProductData", {
+        const req = await fetch("http://localhost:3004/api/v1/users/fetchProductData", {
           method: "GET"
 
         })
