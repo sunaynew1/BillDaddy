@@ -682,7 +682,7 @@ function doSubTotal(){
 
     async function fetchProductData() {
       try {
-        const req = await fetch("http://localhost:3004/api/v1/users/fetchProductData", {
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/fetchProductData", {
           method: "GET"
 
         })
@@ -709,7 +709,7 @@ function doSubTotal(){
 
         async function fetchRetailerData() {
       try {
-        const req = await fetch("http://localhost:3004/api/v1/users/fetchRetailers", {
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/fetchRetailers", {
           method: "GET",
         })
         const data = await req.json()
@@ -727,7 +727,7 @@ function doSubTotal(){
 
     async function generateBill(Order){
       try{
-        const req = await fetch("http://localhost:3004/api/v1/users/generateBill ",{
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/generateBill ",{
           method:"POST",
           headers:{
             "Content-Type" : "application/json"
@@ -749,7 +749,7 @@ function doSubTotal(){
 
     async function CurrentInvoiceNumber(){
       try{
-        const req = await fetch("http://localhost:3004/api/v1/users/invoiceNo",{
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/invoiceNo",{
           method:"POST",
           headers:{
             "Content-Type" : "application/json"
@@ -767,7 +767,7 @@ function doSubTotal(){
    async function updateAvailableStock(newAvailableStock){
       console.log(newAvailableStock)
       try{
-        let req = await fetch("http://localhost:3004/api/v1/users/updateAvailableStock" , {
+        let req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/updateAvailableStock" , {
            method:"POST",
            headers:{
             "Content-Type":"application/json"
@@ -787,7 +787,7 @@ function doSubTotal(){
 
     async function newRetailer(CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress){
       try{
-        const req = await fetch("http://localhost:3004/api/v1/users/addRetailer" , {
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/addRetailer" , {
           method:"POST",
           headers:{
             "Content-Type": "application/json"

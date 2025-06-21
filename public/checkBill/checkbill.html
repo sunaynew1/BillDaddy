@@ -321,7 +321,7 @@
 
     async function fetchRetailerDataThroughRetailerName(CustomerName) {
       try {
-        const req = await fetch("http://localhost:3004/api/v1/users/fetchBillsThroughRetailerName", {
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/fetchBillsThroughRetailerName", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -347,7 +347,7 @@
 
     async function fetchRetailerDataThroughinvoiceNo(invoiceNo) {
       try {
-        const req = await fetch("http://localhost:3004/api/v1/users/fetchBillsThroughInvoice", {
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/fetchBillsThroughInvoice", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -369,7 +369,7 @@
 
     async function updateStatus(invoiceNo, newStatus) {
       try {
-        const req = await fetch("http://localhost:3004/api/v1/users/updateStatus", {
+        const req = await fetch("http://billdaddy-production.up.railway.app/api/v1/users/updateStatus", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
