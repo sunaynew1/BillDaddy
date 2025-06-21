@@ -206,8 +206,11 @@
   <script src="loading.js"></script>
 
   <script >
-      fetchRetailerData()
-      fetchProductData()
+      (async function () {
+   await   fetchRetailerData()
+    await  fetchProductData()
+  })();
+     
      const allProducts = JSON.parse(localStorage.getItem("products"));
     const allRetailers =JSON.parse(localStorage.getItem("Retailers"));
     console.log(allRetailers)
