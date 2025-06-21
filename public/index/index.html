@@ -310,29 +310,33 @@
         itemArray.push(itemID)
         document.getElementById("product-list").insertAdjacentHTML("beforeend", productFields);
 
-        document.getElementById(`${itemID}-qty`).addEventListener("input" , async (e) => {
-          
-          let qty = e.target.value.trim()
-          
-          let metric = document.getElementById(`${itemID}-metric`).value
-          if(metric != "gm" && metric!= "Kg"){
-            document.getElementById(`${itemID}-ammount`).value=qty*(document.getElementById(`${itemID}-Price`).value)
-             document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
-          }
-         console.log(qty)
-          // if(qty<=AvailableStock){
-          // document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
-          // }else{
-          //   qty=AvailableStock
-          //   // window.alert("You Are Choosing more quantity than present in your Inventory")
-          //   window.alert("You Are Choosing more quantity than present in your Inventory")
-          //   document.getElementById(`${itemID}-qty`).value=AvailableStock
+        document.getElementById(`${itemID}-qty`).addEventListener("input" , (e) => {
+         let e = e.target.value
+         console.log(e)
+          // console.log("asdaasd")
+          // let qty = e.target.value.trim()
+          // console.log(qty)
+          // let metric = document.getElementById(`${itemID}-metric`).value
+          // // if(metric != "gm" && metric!= "Kg"){
+          // //   document.getElementById(`${itemID}-ammount`).value=qty*(document.getElementById(`${itemID}-Price`).value)
+           
+          // //   document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
+          // //   console.log(document.getElementById(`${itemID}-stock`).value)
+          // // }
+         
+          // // if(qty<=AvailableStock){
+          // // document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
+          // // }else{
+          // //   qty=AvailableStock
+          // //   // window.alert("You Are Choosing more quantity than present in your Inventory")
+          // //   window.alert("You Are Choosing more quantity than present in your Inventory")
+          // //   document.getElementById(`${itemID}-qty`).value=AvailableStock
 
             
-          // }
+          // // }
           
           // doSubTotal()
-          // addTotal(productAmount)
+          // // addTotal(productAmount)
       
         })
        productSuggestions()
@@ -646,7 +650,7 @@ function doSubTotal(){
   itemArray.forEach(item=>{
      
     let check = document.getElementById(`${item}-ammount`).value
-    console.log(`check value ${check} checksasasas type : ${typeof(check)}`)
+    console.log(`check value ${check} check type : ${typeof(check)}`)
     if(check === NaN || check === "NaN" || check == ""){
       console.log("skipping NaN")
     showToast("error", "Add Items First!!!")

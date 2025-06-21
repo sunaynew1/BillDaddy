@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Retail Bill</title>
+  <link rel="stylesheet" href="output.css">
+  <link rel="icon" href="/public/favicon.png" type="image/png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    @media print {
+      body {
+        background: white !important;
+      }
+      .no-print {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white p-10 text-2xl font-sans text-black leading-relaxed">
+  <div id="invoices" class="w-full mx-auto space-y-20"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const customerPhone = await fetchData();
+        if (customerPhone) {
+          await captureBill(customerPhone);
+        }
+      } catch (err) {
+        console.error("Error in full flow:", err);
+      }
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const BillNo = params.get("I");
+
+    async function fetchData() {
+      try {
+        const res = await fetch("http://localhost:3004/api/v1/users/fetchCompleteBillThroughInvoice", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ BillNo })
+        });
+        const result = await res.json();
+        const data = result.data;
+
+        const date = new Date(data.createdAt).toLocaleString();
+        const div = document.createElement("div");
+        div.className = "w-full border border-black p-8";
+        document.getElementById("invoices").appendChild(div);
+
+        const invoice = `
+          <div class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold tracking-wider uppercase">Gaurav Departmental Store</h1>
+            <p class="text-2xl">123 Main Road, Jaipur, Rajasthan - 302001</p>
+            <p class="text-2xl">GSTIN: <span class="font-semibold">08ABCDE1234Z1A1</span></p>
+            <p class="text-2xl">Phone: <span class="font-semibold">+91 98765 43210</span></p>
+          </div>
+          <div class="grid grid-cols-2 gap-6 mb-8">
+            <div>
+              <h2 class="text-3xl font-bold mb-2">Billed To:</h2>
+              <p><strong>Name:</strong> ${data.CustomerName}</p>
+              <p><strong>GSTIN:</strong> ${data.GSTNumber}</p>
+              <p><strong>Phone:</strong> ${data.ContactNumber}</p>
+              <p><strong>Address:</strong> ${data.Address}</p>
+              <p>Status: <span class="font-medium ${data.BillStatus === 'ACTIVE' ? 'text-green-600' : 'text-red-600 text-6xl'}">${data.BillStatus}</span></p>
+            </div>
+            <div class="text-right">
+              <p><strong class="text-2xl">Invoice No:</strong> ${data.InvoiceNo}</p>
+              <p><strong class="text-3xl">Date:</strong> ${date}</p>
+            </div>
+          </div>
+          <table class="w-full border border-black border-collapse mb-8 text-2xl">
+            <thead>
+              <tr class="bg-gray-200 text-2xl">
+                <th class="border border-black px-4 py-2 text-left">Item</th>
+                <th class="border border-black px-4 py-2 text-right">Qty</th>
+                <th class="border border-black px-4 py-2 text-right">MRP</th>
+                <th class="border border-black px-4 py-2 text-right">Price</th>
+                <th class="border border-black px-4 py-2 text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody class="items-body text-black text-2xl"></tbody>
+          </table>
+        `;
+        div.innerHTML = invoice;
+
+        const tbody = div.querySelector(".items-body");
+        const emptyLength = 14 - data.items.length;
+
+        data.items.forEach(item => {
+          const row = `
+            <tr>
+              <td class="border border-black px-4 py-2">${item.productName}</td>
+              <td class="border border-black px-4 py-2 text-right">${item.productQuantity}${item.productMetric}</td>
+              <td class="border border-black px-4 py-2 text-right">${item.productMRP}</td>
+              <td class="border border-black px-4 py-2 text-right">${item.productPRICE}</td>
+              <td class="border border-black px-4 py-2 text-right">${item.productAmount}</td>
+            </tr>
+          `;
+          tbody.insertAdjacentHTML("beforeend", row);
+        });
+
+        for (let i = 0; i < emptyLength; i++) {
+          const blankRow = `
+            <tr>
+              <td class="border border-black px-4 py-2">&nbsp;</td>
+              <td class="border border-black px-4 py-2">&nbsp;</td>
+              <td class="border border-black px-4 py-2">&nbsp;</td>
+              <td class="border border-black px-4 py-2">&nbsp;</td>
+              <td class="border border-black px-4 py-2">&nbsp;</td>
+            </tr>
+          `;
+          tbody.insertAdjacentHTML("beforeend", blankRow);
+        }
+
+        const footer = `
+          <div class="border-t border-black pt-4 text-3xl">
+            <div class="flex justify-between mb-2"><span>Subtotal:</span><span>₹${data.subTotal}</span></div>
+            <div class="flex justify-between mb-2"><span>Round Off:</span><span>₹${data.roundOff}</span></div>
+            <div class="flex justify-between mb-2"><span>CGST (1%):</span><span>₹${data.Cgst}</span></div>
+            <div class="flex justify-between mb-2"><span>SGST (1%):</span><span>₹${data.Sgst}</span></div>
+            <div class="flex justify-between font-extrabold text-2xl border-t border-black pt-4 mt-4">
+              <span>Total:</span><span>₹${data.TotalAmount}</span>
+            </div>
+            <div class="flex justify-end mt-12">
+              <div class="text-center">
+                <p class="text-xl font-semibold">Authorized Signature</p>
+                <div class="w-60 h-10 border-t-2 border-black mt-2"></div>
+              </div>
+            </div>
+            <p class="text-center text-2xl font-semibold mt-8">Thank you for your purchase!</p>
+            <hr class="border-t-4 border-dashed border-black mt-6" />
+          </div>
+        `;
+        div.insertAdjacentHTML("beforeend", footer);
+        return data.ContactNumber;
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        return null;
+      }
+    }
+
+    async function captureBill(phone) {
+      try {
+        const element = document.getElementById("invoices");
+        const canvas = await html2canvas(element, { scale: 5 });
+
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            console.error("Canvas blob failed.");
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append("invoice", blob, "invoice.png");
+          // formData.append("phone", phone);
+
+          console.log("Blob created:", blob);
+          console.log("Sending to WhatsApp:", phone);
+          await callWA(formData);
+        }, "image/png");
+      } catch (err) {
+        console.error("Error capturing invoice:", err);
+      }
+    }
+
+    async function callWA(formData) {
+      try {
+        const res = await fetch("http://localhost:3004/api/v1/users/sendBillOnWhatsApp", {
+          method: "POST",
+          body: formData
+        });
+
+        const text = await res.text();
+        console.log("WhatsApp API Response:", text);
+      } catch (err) {
+        console.error("Error sending to WhatsApp:", err);
+      }
+    }
+  </script>
+</body>
+</html>
