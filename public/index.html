@@ -65,7 +65,7 @@
     <!-- Seller Info -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="relative">
-        <label class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">Customer Name</label>
+        <label class="text-m text-zinc-600 dark:text-zinc-300 font-medium">Customer Name</label>
         <input type="text" id="CustomerName" required
           class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
         <ul id="retailer-suggestion"
@@ -245,10 +245,10 @@
         type="text"
         id="${itemID}-name"
         placeholder="Product Name"
-        class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+        class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-m text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
       />
       <ul
-        class="suggestions hidden absolute inset-x-0 top-full mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-md z-50 text-sm text-zinc-800 dark:text-white max-h-60 overflow-y-auto ring-1 ring-black/5"
+        class="suggestions hidden absolute inset-x-0 top-full mt-1 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-md z-50 text-m text-zinc-800 dark:text-white max-h-60 overflow-y-auto ring-1 ring-black/5"
         id="${itemID}-suggestion">
       </ul>
     </div>
@@ -259,9 +259,9 @@
       id="${itemID}-qty"
       placeholder="Quantity"
       min="1"
-      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-m text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
       />
-      <select id='${itemID}-metric' class="bg-[#18181b] border text-center border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-[#18181b] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <select id='${itemID}-metric' class="bg-[#18181b] border text-center border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-[#18181b] dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                           <option selected value="Pcs">Pcs</option>
                           <option value="gm" >gm</option>
                           <option value="Kg">Kg</option>
@@ -273,7 +273,7 @@
       id="${itemID}-stock"
       placeholder="Available Stock"
       min="1" disabled
-      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-m text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
     />
 
     <!-- MRP -->
@@ -281,7 +281,7 @@
       type="number"
       id="${itemID}-MRP"
       placeholder="MRP"
-      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-m text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
     />
 
   
@@ -291,7 +291,7 @@
       type="number"
       id="${itemID}-Price"
       placeholder="Price"
-      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-m text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
     />
 
     <!-- Amount (disabled) -->
@@ -300,7 +300,7 @@
       id="${itemID}-ammount"
       placeholder="Amount"
       disabled
-      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-sm text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
+      class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-m text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
     />
   </div>
 </div>
