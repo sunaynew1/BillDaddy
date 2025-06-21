@@ -161,7 +161,7 @@
       document.getElementById("billResults").innerHTML = ""
       CustomerName = document.getElementById("searchName").value
       BillNo = document.getElementById("searchInvoice").value
-      
+      console.log(CustomerName,BillNo)
       if(CustomerName == "" || BillNo == ""){
         return showToast("error", " First Add Parameter To Search")
       }
