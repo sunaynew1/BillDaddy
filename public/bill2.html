@@ -55,10 +55,10 @@
   <p class="text-2xl">Phone: <span class="font-semibold">+91 98765 43210</span></p>
 </div>
 
-<div class="grid grid-cols-2 gap-y-4 gap-x-6 mb-6 text-xl leading-relaxed">
+<div class="grid grid-cols-2 gap-y-4 gap-x-6 mb-6 text-2xl leading-relaxed">
   <!-- Customer Info -->
   <div class="space-y-2">
-    <h2 class="text-2xl font-bold underline mb-4">Billed To:</h2>
+    <h2 class="text-2xl font-bold underline mb-2">Billed To:</h2>
     <p><span class="font-bold mb-4">Name:</span> ${data.data.CustomerName}</p>
     <p><span class="font-bold mb-4">GSTIN:</span> ${data.data.GSTNumber}</p>
     <p><span class="font-bold mb-4">Phone:</span> ${data.data.ContactNumber}</p>
@@ -125,7 +125,7 @@
           }
 
           const footer = `
-            <div class="border-t border-black pt-4 text-4xl">
+            <div class="border-t border-black pt-4 text-3xl">
               <div class="flex justify-between mb-2"><span>Subtotal:</span><span>₹${data.data.subTotal}</span></div>
               <div class="flex justify-between mb-2"><span>Round Off:</span><span>₹${data.data.roundOff}</span></div>
               <div class="flex justify-between mb-2"><span>CGST (1%):</span><span>₹${data.data.Cgst}</span></div>
