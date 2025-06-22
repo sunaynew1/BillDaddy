@@ -212,7 +212,7 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
         const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER
         console.log(accessToken, phoneNumberId)
         console.log(phoneNumberId)
-        const customerPhoneNumber = "+91 8619804776"
+        const customerPhoneNumber = ["+91 8619804776" , "+91 9799300333 ,+91 9799300222"]
 
         const mediaForm = new FormData()
 
@@ -243,7 +243,9 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
         // console.log("📦 Media ID:", mediaId);
         //       console.log("Response status:", mediaUploadresponse.status);
         // console.log("Response text:", await mediaUploadresponse.text());
-
+         for(let to of customerPhoneNumber){
+            
+         
         const send = await fetch(`https://graph.facebook.com/v22.0/${phoneNumberId}/messages`, {
             method: "POST",
             headers: {
@@ -254,7 +256,7 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
             },
             body: JSON.stringify({
                 messaging_product: "whatsapp",
-                to: customerPhoneNumber,
+                to: to,
                 type: "template",
                 
       template: {
@@ -282,9 +284,11 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
             })
 
         })
-        const d = await send.json()
+         const d = await send.json()
         console.log(d)
         return res.status(200).json(new ApiResponse(200, d))
+         };
+       
 
     } catch (error) {
         console.log(error)
