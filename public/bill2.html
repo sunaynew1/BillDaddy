@@ -58,13 +58,13 @@
 <div class="grid grid-cols-2 gap-y-4 gap-x-6 mb-6 text-xl leading-relaxed">
   <!-- Customer Info -->
   <div class="space-y-2">
-    <h2 class="text-2xl font-bold underline mb-2">Billed To:</h2>
-    <p><span class="font-bold">Name:</span> ${data.data.CustomerName}</p>
-    <p><span class="font-bold">GSTIN:</span> ${data.data.GSTNumber}</p>
-    <p><span class="font-bold">Phone:</span> ${data.data.ContactNumber}</p>
-    <p><span class="font-bold">Address:</span> ${data.data.Address}</p>
-    <p><span class="font-bold">Status:</span>
-      <span class="${data.data.BillStatus === 'ACTIVE' ? 'text-green-600' : 'text-red-600'} font-bold">
+    <h2 class="text-2xl font-bold underline mb-4">Billed To:</h2>
+    <p><span class="font-bold mb-4">Name:</span> ${data.data.CustomerName}</p>
+    <p><span class="font-bold mb-4">GSTIN:</span> ${data.data.GSTNumber}</p>
+    <p><span class="font-bold mb-4">Phone:</span> ${data.data.ContactNumber}</p>
+    <p><span class="font-bold mb-4">Address:</span> ${data.data.Address}</p>
+    <p><span class="text-sm mb-4">Status:</span>
+      <span class="${data.data.BillStatus === 'ACTIVE' ? 'text-green-600' : 'text-red-600'} ">
         ${data.data.BillStatus}
       </span>
     </p>
@@ -72,8 +72,8 @@
 
   <!-- Invoice Info -->
   <div class="text-right space-y-2">
-    <p><span class="font-bold">Invoice No:</span> ${data.data.InvoiceNo}</p>
-    <p><span class="font-bold">Date:</span> ${date}</p>
+    <p><span class="font-bold">Invoice No: ${data.data.InvoiceNo}</span></p>
+    <p><span class="font-bold">Date:</span> ${date}</span></p>
   </div>
 </div>
 
