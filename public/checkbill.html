@@ -222,7 +222,7 @@
                 <td class="px-4 py-2">₹${data.TotalAmount}</td>
                 
                 <td class="px-4 py-2">
-                  <button onclick="window.open('http://127.0.0.1:3005/bill2.html?I=${data.InvoiceNo}', '_blank');" class=" billLink text-blue-600 hover:underline">View</button>
+                  <button onclick="window.open('https://billdaddy-production.up.railway.app/bill2.html?I=${data.InvoiceNo}', '_blank');" class=" billLink text-blue-600 hover:underline">View</button>
                 </td>
                 <td id="${data.InvoiceNo}-status" class="px-4 py-2 ${data.BillStatus === 'ACTIVE' ? 'text-[#B6F500]' : 'text-[#E83F25]'}">${data.BillStatus}</td>
                 <td class="px-4 py-2">
