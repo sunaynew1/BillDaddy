@@ -20,7 +20,7 @@
   </style>
 </head>
 
-<body class="bg-white p-10 text-2xl font-sans text-black leading-relaxed">
+<body class="bg-white  text-2xl font-sans text-black leading-relaxed">
 
   <div id="invoices" class="w-full  mx-auto space-y-20">
   </div>
@@ -55,10 +55,10 @@
   <p class="text-2xl">Phone: <span class="font-semibold">+91 98765 43210</span></p>
 </div>
 
-<div class="grid grid-cols-2 gap-y-4 gap-x-6 mb-6 text-2xl leading-relaxed">
+<div class="grid grid-cols-2 gap-y-4 gap-x-6 mb-6 text-3xl leading-relaxed">
   <!-- Customer Info -->
   <div class="space-y-2">
-    <h2 class="text-2xl font-bold underline mb-2">Billed To:</h2>
+    <h2 class="text-3xl font-bold underline mb-2">Billed To:</h2>
     <p><span class="font-bold mb-4">Name:</span> ${data.data.CustomerName}</p>
     <p><span class="font-bold mb-4">GSTIN:</span> ${data.data.GSTNumber}</p>
     <p><span class="font-bold mb-4">Phone:</span> ${data.data.ContactNumber}</p>
@@ -71,15 +71,15 @@
   </div>
 
   <!-- Invoice Info -->
-  <div class="text-right space-y-2">
-    <p><span class="font-bold">Invoice No: ${data.data.InvoiceNo}</span></p>
+  <div class="text-right space-y-2 text-3xl">
+    <p><span class="font-bold text-right">Invoice No: ${data.data.InvoiceNo}</span></p>
     <p><span class="font-bold">Date:</span> ${date}</span></p>
   </div>
 </div>
 
 <table class="w-full border border-black border-collapse mb-4 text-xl">
   <thead>
-    <tr class="bg-gray-200 text-xl">
+    <tr class="bg-gray-200 text-xl text-center">
       <th class="border border-black px-2 py-1 text-left">Item</th>
       <th class="border border-black px-2 py-1 text-right">Qty</th>
       <th class="border border-black px-2 py-1 text-right">MRP</th>
@@ -101,11 +101,11 @@
           items.items.forEach(item => {
             const row = `
               <tr>
-                <td class="border border-black px-4 text-4xl py-2">${item.productName}</td>
-                <td class="border border-black px-4 text-4xl py-2 text-right">${item.productQuantity} ${item.productMetric}</td>
-                <td class="border border-black px-4 text-4xl py-2 text-right">${item.productMRP}</td>
-                <td class="border border-black px-4  text-4xl py-2 text-right">${item.productPRICE}</td>
-                <td class="border border-black px-4 text-4xl py-2 text-right">${item.productAmount}</td>
+                <td class="border border-black px-4 text-3xl py-2">${item.productName}</td>
+                <td class="border border-black px-4 text-3xl py-2 text-right">${item.productQuantity} ${item.productMetric}</td>
+                <td class="border border-black px-4 text-3xl py-2 text-right">${item.productMRP}</td>
+                <td class="border border-black px-4  text-3xl py-2 text-right">${item.productPRICE}</td>
+                <td class="border border-black px-4 text-3xl py-2 text-right">${item.productAmount}</td>
               </tr>
             `;
             tbody.insertAdjacentHTML("beforeend", row);
