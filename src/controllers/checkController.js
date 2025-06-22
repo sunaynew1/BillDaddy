@@ -245,6 +245,7 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
         // console.log("Response text:", await mediaUploadresponse.text());
          for(let to of customerPhoneNumber){
             
+            console.log(to)
          
         const send = await fetch(`https://graph.facebook.com/v22.0/${phoneNumberId}/messages`, {
             method: "POST",
@@ -286,8 +287,9 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
         })
          const d = await send.json()
         console.log(d)
-        return res.status(200).json(new ApiResponse(200, d))
+        
          };
+         return res.status(200).json(new ApiResponse(200, "sent successfully"))
        
 
     } catch (error) {
