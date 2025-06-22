@@ -80,6 +80,7 @@
 <table class="w-full border border-black border-collapse mb-4 text-xl">
   <thead>
     <tr class="bg-gray-200 text-xl text-center">
+      <th class="border border-black px-2 py-1 text-left">No</th>
       <th class="border border-black px-2 py-1 text-left">Item</th>
       <th class="border border-black px-2 py-1 text-right">Qty</th>
       <th class="border border-black px-2 py-1 text-right">MRP</th>
@@ -98,10 +99,12 @@
 
           const tbody = div.querySelector(".items-body");
 
-          items.items.forEach(item => {
+          items.items.forEach((item,index) => {
+            let n = index +1
             const row = `
               <tr>
-                <td class="border border-black px-4 text-3xl py-2">${item.productName}</td>
+                <td class="border border-black px-4 text-3xl py-2"></td>
+                <td class="border border-black px-4 text-3xl py-2">${n}</td>
                 <td class="border border-black px-4 text-3xl py-2 text-right">${item.productQuantity} ${item.productMetric}</td>
                 <td class="border border-black px-4 text-3xl py-2 text-right">${item.productMRP}</td>
                 <td class="border border-black px-4  text-3xl py-2 text-right">${item.productPRICE}</td>
