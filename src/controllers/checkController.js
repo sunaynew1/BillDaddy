@@ -212,7 +212,7 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
         const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER
         console.log(accessToken, phoneNumberId)
         console.log(phoneNumberId)
-        const customerPhoneNumber = ["+91 8619804776" , "+91 9799300222"]
+        const customerPhoneNumber = ["+91 8619804776"]
 
         const mediaForm = new FormData()
 

@@ -317,7 +317,9 @@
           let metric = document.getElementById(`${itemID}-metric`).value
           if(metric != "gm" && metric!= "Kg"){
             document.getElementById(`${itemID}-ammount`).value=qty*(document.getElementById(`${itemID}-Price`).value)
-             document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
+           if(AvailableStock != 0) {
+            document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
+           }
           }
          console.log(qty)
           // if(qty<=AvailableStock){
@@ -356,8 +358,11 @@
       productQuantity.value=1
       
       productAmount.value=(productQuantity.value)*(productPRICE.value)
-      productStockQty.value=stockqty - productQuantity.value
+      if(stockqty != 0){
+        productStockQty.value=stockqty - productQuantity.value
       AvailableStock= stockqty
+      }
+     
       
       doSubTotal()
       ul.classList.add("hidden");
@@ -392,7 +397,7 @@
     }else{
       ul.classList.remove("hidden");
     }
-
+          
           console.log(name)
 
           try{
@@ -409,6 +414,11 @@
  
          ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,productMetric,match.productName,match.MRP,match.PRICE,match.CurrentStock,match._id, match.productMetric,ul));
           ul.classList.remove("hidden");
+        })
+
+        document.addEventListener("click",(e) => {
+
+          ul.classList.add("hidden");
         })
               
         productMetric.addEventListener("input", (e)=> {
@@ -476,7 +486,7 @@
 
         ul.innerHTML=""
 
-        if(name.length === 0){
+        if(name == ""){
           ul.classList.add("hidden")
           return;
         }else{
@@ -501,6 +511,10 @@
           matched.forEach(match =>{
              ul.appendChild(createRetailerSuggestionList(retailerNameLocation,retailerContactLocation,retailerGSTLocation,retailerAddressLocation,match.CustomerName,match.ContactNumber,match.GSTNumber,match.Address,ul))
           ul.classList.remove("hidden")
+
+          document.addEventListener("click",()=> {
+             ul.classList.add("hidden")
+          })
 
         })
             }catch(error){
