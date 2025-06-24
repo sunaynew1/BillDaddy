@@ -298,6 +298,33 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
     }
 })
 
+const checkProductAndAdd = asyncHandler(async (req,res) => {
+    const items  = req.body.items
+    // console.log(items)
+    // const product = await Product.findOne({productName:"bajaj almond 100ml"})
+        // console.log(product)
+
+    for(let item of items){
+        console.log(typeof(item.productName))
+        let product = await Product.findOne({productName:item.productName})
+        console.log(typeof(product))
+        if(product ==  null){
+            console.log("prod doesnot exist")
+         let newProd =   await Product.create({
+            productName:item.productName,
+            MRP:item.productMRP,
+            PRICE:item.productPRICE
+            
+           })
+           await newProd.save()
+           console.log(newProd)
+        }else{
+            console.log("prd exist")
+        }
+    }
+    // }
+})
+
 const updateAvailableStock = asyncHandler(async (req,res) => {
     const data = req.body.newAvailableStock
 
@@ -328,5 +355,6 @@ export {
     productDetailChanges,
     sendBillOnWhatsApp,
     newInventory,
-    updateAvailableStock
+    updateAvailableStock,
+    checkProductAndAdd
 }

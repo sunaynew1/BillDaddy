@@ -1,6 +1,6 @@
 import { Router } from "express";
 import upload from "../middlewares/multer.middleware.js";
-import { fetchProductData, fetchRetailers, newProduct, newRetailer,generateBill,fetchCurrentInvoiceNo, fetchCompleteBillThroughInvoice, fetchBillsThroughRetailerName, fetchBillsThroughInvoice, updateStatus ,deleteProduct,productDetailChanges,sendBillOnWhatsApp,newInventory,updateAvailableStock} from "../controllers/checkController.js";
+import { fetchProductData, fetchRetailers, newProduct, newRetailer,generateBill,fetchCurrentInvoiceNo, fetchCompleteBillThroughInvoice, fetchBillsThroughRetailerName, fetchBillsThroughInvoice, updateStatus ,deleteProduct,productDetailChanges,sendBillOnWhatsApp,newInventory,updateAvailableStock,checkProductAndAdd} from "../controllers/checkController.js";
 import bodyParser from 'body-parser'
 // import multer from "multer";
 
@@ -20,6 +20,10 @@ router.route("/deleteProduct").post(deleteProduct)
 router.route("/productDetailChanges").post(productDetailChanges)
 router.route("/updateInventory").post(newInventory)
 router.route("/updateAvailableStock").post(updateAvailableStock)
+router.route("/checkProductAndAdd").post(checkProductAndAdd)
+
+
+// checkProductAndAdd
 // newInventory
 // updateAvailableStock
 router.route("/sendBillOnWhatsApp").post(
