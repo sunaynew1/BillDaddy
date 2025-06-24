@@ -208,8 +208,8 @@
   <script >
       fetchRetailerData()
       fetchProductData()
-     const allProducts = JSON.parse(localStorage.getItem("products"));
-    const allRetailers =JSON.parse(localStorage.getItem("Retailers"));
+     let allProducts = JSON.parse(localStorage.getItem("products"));
+    let allRetailers =JSON.parse(localStorage.getItem("Retailers"));
     console.log(allRetailers)
     let SubTotalAmount=0
     let TotalAmount;
