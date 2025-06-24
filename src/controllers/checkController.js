@@ -322,6 +322,7 @@ const checkProductAndAdd = asyncHandler(async (req,res) => {
             console.log("prd exist")
         }
     }
+    return res.status(201).json(new ApiResponse(201,null,"New Product(s) Added!"))
     // }
 })
 

@@ -205,10 +205,13 @@
   <script>lucide.createIcons();</script>
   <script src="loading.js"></script>
 
-  <script >
-      fetchRetailerData()
-      fetchProductData()
-     let allProducts = JSON.parse(localStorage.getItem("products"));
+  <script type="module" >
+      
+     
+     await  fetchRetailerData()
+     await fetchProductData()
+      
+    let allProducts = JSON.parse(localStorage.getItem("products"));
     let allRetailers =JSON.parse(localStorage.getItem("Retailers"));
     console.log(allRetailers)
     let SubTotalAmount=0
@@ -631,14 +634,14 @@ if(FinalTotal == "NaN"){
   }
 
   console.log(Order)
-  updateAvailableStock(productUpdateList)
+   await checkProductAndAdd(newArray)
+ await updateAvailableStock(productUpdateList)
   await generateBill(Order)
   // let findRetailer = allRetailers.find(retailer => retailer.CustomerName == CustomerName)
   // if(findRetailer!=true){
   // await newRetailer(CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress)
   // }
-  await checkProductAndAdd(newArray)
-
+ 
  
   
   let invoice = await CurrentInvoiceNumber()
@@ -755,7 +758,7 @@ function doSubTotal(){
         if(data.message == "success"){
            showToast("success", "Successfully Generated Bill");
         }else{
-           showToast("error", "Request failed: " + err.message);
+          await showToast("error", "Request failed: " + err.message);
         }
       }catch(error){
         console.log(error)
@@ -827,6 +830,8 @@ function doSubTotal(){
           },
           body:JSON.stringify({items})
         }) 
+        let data = await req.json()
+        await showToast("success", data.message)
       }catch(error){
         console.log(error)
       }
