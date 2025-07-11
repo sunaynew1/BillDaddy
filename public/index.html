@@ -207,9 +207,11 @@
 
   <script type="module" >
       
-     
+     showLoading()
      await  fetchRetailerData()
      await fetchProductData()
+     hideLoading() 
+
       
     let allProducts = JSON.parse(localStorage.getItem("products"));
     let allRetailers =JSON.parse(localStorage.getItem("Retailers"));
