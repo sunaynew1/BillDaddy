@@ -60,9 +60,9 @@ const newInventory = asyncHandler(async(req,res) => {
 
 const newRetailer = asyncHandler(async (req, res) => {
     const CustomerName = req.body.CustomerName|| "CASH"
-    const ContactNumber = req.body.retailerContactNumber || ""
-    const Address = req.body.retaileraddress || ""
-    const GSTNumber =  req.body.retailerGSTNumber || ""
+    const ContactNumber = req.body.retailerContactNumber || "NONE"
+    const Address = req.body.retaileraddress || "NONE"
+    const GSTNumber =  req.body.retailerGSTNumber || "NONE"
 
 // CustomerName,retailerContactNumber,retailerGSTNumber,retaileraddress
 
