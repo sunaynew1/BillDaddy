@@ -430,7 +430,7 @@
           
           let metric =  e.target.value
           console.log(metric)
-           if(metric != "gm" && metric != "Kg"){
+           if(metric != "gm" && metric != "ml"){
             productAmount.value=productQuantity.value*(productPRICE.value)         
             doSubTotal()
             }else{
@@ -444,7 +444,7 @@
         productPRICE.addEventListener("input",(e) =>{
              console.log(productMetric.value)
             let price = e.target.value.trim()
-            if(productMetric.value != "gm"){
+            if(productMetric.value != "gm" || productMetric.value != "ml"){
             productAmount.value=productQuantity.value*(productPRICE.value)         
             doSubTotal()
             }else{
