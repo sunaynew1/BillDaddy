@@ -446,7 +446,7 @@
         productPRICE.addEventListener("input",(e) =>{
              console.log(productMetric.value)
             let price = e.target.value.trim()
-            if(productMetric.value != "gm" || productMetric.value != "ml"){
+            if(productMetric.value != "gm" || productMetric.value != "ml" || productMetric.value != "Kg" || productMetric.value != "ltr" ){
             productAmount.value=productQuantity.value*(productPRICE.value)         
             doSubTotal()
             }else{
@@ -627,8 +627,7 @@ if(FinalTotal == "NaN"){
     retailerContactNumber:retailerContactNumber,
     retailerGSTNumber:retailerGSTNumber,
     retaileraddress:retaileraddress,
-    paymentMethod:paymentMethod,
-    
+    paymentMethod:paymentMethod,  
     items:newArray,
     SubTotal:subTotal,
     Cgst:Cgst,
@@ -840,15 +839,7 @@ function doSubTotal(){
         console.log(error)
       }
     }
-   
-    
-
-    // fetchProductData()
-    // fetchRetailerData()
-
- 
-
-  </script>
+   </script>
   </script>
 </body>
 </html>
