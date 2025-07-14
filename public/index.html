@@ -432,14 +432,14 @@
           
           let metric =  e.target.value
           console.log(metric)
-           if(metric.value != "gm" || metric.value != "ml" || metric.value != "Kg" || metric.value != "ltr" ){
+           if(metric.value != "Pcs"){
             productAmount.value=productQuantity.value*(productPRICE.value)         
             doSubTotal()
             }else{
               console.log("same value")
               productStockQty.value="Stock Available"
               productAmount.value=productPRICE.value
-              // doSubTotal()
+              doSubTotal()
             }
         })
        
