@@ -445,7 +445,7 @@
        
 
         productPRICE.addEventListener("input",(e) =>{
-             console.log(productMetric.value)
+             console.log("price calculation",productMetric.value)
             let price = e.target.value.trim()
             if(productMetric.value != "gm" || productMetric.value != "ml" || productMetric.value != "Kg" || productMetric.value != "ltr" ){
             productAmount.value=productQuantity.value*(productPRICE.value)         
