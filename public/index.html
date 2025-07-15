@@ -463,7 +463,7 @@
           
           let metric =  e.target.value
           console.log(metric)
-           if(metric == "Pcs"){
+           if(metric == "Pcs" || metric == "gm"  || metric == "Kg"){
             productAmount.value=productQuantity.value*(productPRICE.value)         
             doSubTotal()
             }else{
