@@ -108,7 +108,7 @@
       </h2>
 
     <!-- Column Labels -->
-<div class="hidden md:grid grid-cols-7 gap-5 text-sm font-medium text-zinc-500 px-2 py-2">
+<div class="hidden md:grid grid-cols-8 gap-8 text-sm font-medium text-zinc-500 px-2 py-2">
   <div class="text-left">Product Name</div>
   
   <div class="text-left">Quantity</div>
@@ -117,6 +117,7 @@
   <div class="text-left">MRP</div>
   <div class="text-left">Price</div> <!-- Optional: if you have buttons -->
   <div class="text-left">Amount</div>
+  <div class="text-left">Clear</div>
 </div>
 
 
@@ -206,7 +207,7 @@
   <script src="loading.js"></script>
 
   <script type="module" >
-      
+      lucide.createIcons();
      showLoading()
      await  fetchRetailerData()
      await fetchProductData()
@@ -235,15 +236,20 @@
       let itemNo = itemArray.length+1
       let itemID = `item-${itemNo}`
       const productFields = `
-     <div class="space-y-4 border-t border-dashed border-zinc-300 dark:border-zinc-700 pt-4 product-item">
+
+  
+
+  
+<div id='${itemID}-id' >
+       <div class="space-y-4 border-t border-dashed border-zinc-300 dark:border-zinc-700 pt-4 product-item">
   <!-- Item ID label -->
   <div class="text-sm font-medium text-white">
     ${itemID}
-  </div>
-<div id='${itemID}-id' >
-   
+    
+  </div> 
+
   <!-- Inputs Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-7 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-8 gap-8">
     <!-- Product Name with Suggestions -->
     <div class="relative w-full">
       <input
@@ -309,6 +315,9 @@
       disabled
       class="w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-3 py-2.5 text-m text-zinc-800 dark:text-white focus:ring-2 focus:ring-[#F4631E] focus:outline-none transition"
     />
+    <div class="w-6 h-6 pt-2.5 ml-1 " >
+         <i class="cursor-pointer text-white font-sans hover:text-red-600" id="${itemID}-clear" >CLEAR</i>
+      </div>
   </div>
 </div>
 </div>
@@ -317,8 +326,29 @@
         itemArray.push(itemID)
         document.getElementById("product-list").insertAdjacentHTML("beforeend", productFields);
 
+          document.getElementById(`${itemID}-clear`).addEventListener("click" , () => {
+             let productName = document.getElementById(`${itemID}-name`)
+        let productMRP = document.getElementById(`${itemID}-MRP`)
+        let productPRICE = document.getElementById(`${itemID}-Price`)
+        let productQuantity = document.getElementById(`${itemID}-qty`)
+        let productStockQty = document.getElementById(`${itemID}-stock`)
+        let productAmount = document.getElementById(`${itemID}-ammount`)
+        let subTotal = document.getElementById("subTotal")
+        let productId = document.getElementById(`${itemID}-id`)
+        let productMetric = document.getElementById(`${itemID}-metric`)
+
+        productName.value=""
+           productMRP.value=""
+              productPRICE.value=""
+                 productStockQty.value=""
+                    productQuantity.value=""
+                         productAmount.value=""
+            
+           })
+
         document.getElementById(`${itemID}-qty`).addEventListener("input" , async (e) => {
           
+         
           let qty = e.target.value.trim()
           
           let metric = document.getElementById(`${itemID}-metric`).value
@@ -327,6 +357,7 @@
            if(AvailableStock != 0) {
             document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
            }
+           
           }
          console.log(qty)
           // if(qty<=AvailableStock){
@@ -434,12 +465,12 @@
           console.log(metric)
            if(metric == "Pcs"){
             productAmount.value=productQuantity.value*(productPRICE.value)         
-            // doSubTotal()
+            doSubTotal()
             }else{
               console.log("same value")
               productStockQty.value="Stock Available"
               productAmount.value=productPRICE.value
-              // doSubTotal()
+              doSubTotal()
             }
         })
        
@@ -827,7 +858,7 @@ function doSubTotal(){
 
     async function checkProductAndAdd (items){
       try{
-        const req = await fetch("http://localhost:3004/api/v1/users/checkProductAndAdd" , {
+        const req = await fetch("https://billdaddy-production.up.railway.app/api/v1/users/checkProductAndAdd" , {
           method:"POST",
           headers:{
           "Content-Type":"application/json"
