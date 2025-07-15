@@ -352,13 +352,13 @@
           let qty = e.target.value.trim()
           
           let metric = document.getElementById(`${itemID}-metric`).value
-          if(metric != "gm" && metric!= "Kg"){
+          // if(metric != "gm" && metric!= "Kg"){
             document.getElementById(`${itemID}-ammount`).value=qty*(document.getElementById(`${itemID}-Price`).value)
            if(AvailableStock != 0) {
             document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
            }
            
-          }
+          // }
          console.log(qty)
           // if(qty<=AvailableStock){
           // document.getElementById(`${itemID}-stock`).value= AvailableStock - qty
