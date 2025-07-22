@@ -316,6 +316,7 @@
              document.getElementById(`${match._id}-landing`).addEventListener("input", (e) => {
 
             let value = e.target.value.trim()
+            console.log(value)
             match.landing = value
             clearTimeout(debounceTimer4)
 

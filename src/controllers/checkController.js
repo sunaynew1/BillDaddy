@@ -195,8 +195,7 @@ const productDetailChanges = asyncHandler(async (req, res) => {
     const name = req.body.name
     const mrp = req.body.mrp
     const price = req.body.price
-    
-    const landing = req.body.landing3
+    const landing = req.body.landing
     console.log(landing)
 
     const d = await Product.findOneAndUpdate({ _id: id }, {
