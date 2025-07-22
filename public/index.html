@@ -321,6 +321,7 @@
              let productName = document.getElementById(`${itemID}-name`)
         let productMRP = document.getElementById(`${itemID}-MRP`)
         let productPRICE = document.getElementById(`${itemID}-Price`)
+        let landing = document.getElementById(`${itemID}-Landing`)
         let productQuantity = document.getElementById(`${itemID}-qty`)
         let productStockQty = document.getElementById(`${itemID}-stock`)
         let productAmount = document.getElementById(`${itemID}-ammount`)
@@ -329,6 +330,7 @@
         let productMetric = document.getElementById(`${itemID}-metric`)
 
         productName.value=""
+        landing.value=""
            productMRP.value=""
               productPRICE.value=""
                  productStockQty.value=""
@@ -373,7 +375,7 @@
         document.addEventListener("DOMContentLoaded", newItem())
 
 
-          function createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,prodMetric,prodName,prodMRP,prodPrice,stockqty,id,metric, ul) {
+          function createSuggestionItem(productName,productMRP,productPRICE,productLanding,productQuantity,productAmount,subTotal,productStockQty,productId,prodMetric,prodName,prodMRP,prodPrice,prodLanding,stockqty,id,metric, ul) {
     const li = document.createElement("li");
     // li.id=text
     li.textContent = prodName;
@@ -384,6 +386,7 @@
       productName.value = prodName;
       productMRP.value = prodMRP
       productPRICE.value = prodPrice
+      productLanding.value=prodLanding
       productQuantity.value=1
       
       productAmount.value=(productQuantity.value)*(productPRICE.value)
@@ -406,6 +409,7 @@
         let productName = document.getElementById(`${item}-name`)
         let productMRP = document.getElementById(`${item}-MRP`)
         let productPRICE = document.getElementById(`${item}-Price`)
+        let productLanding = document.getElementById(`${item}-Landing`)
         let productQuantity = document.getElementById(`${item}-qty`)
         let productStockQty = document.getElementById(`${item}-stock`)
         let productAmount = document.getElementById(`${item}-ammount`)
@@ -441,7 +445,7 @@
       }
        matched.forEach(match =>{
  
-         ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productQuantity,productAmount,subTotal,productStockQty,productId,productMetric,match.productName,match.MRP,match.PRICE,match.CurrentStock,match._id, match.productMetric,ul));
+         ul.appendChild(createSuggestionItem(productName,productMRP,productPRICE,productLanding,productQuantity,productAmount,subTotal,productStockQty,productId,productMetric,match.productName,match.MRP,match.PRICE,match.landing,match.CurrentStock,match._id, match.productMetric,ul));
           ul.classList.remove("hidden");
         })
 
