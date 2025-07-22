@@ -139,17 +139,6 @@
           class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
       </div>
 
-      <div>
-        <label class="text-zinc-600 dark:text-zinc-300 font-medium">CGST (%)</label>
-        <input type="number" id="cgst"
-          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
-      </div>
-
-      <div>
-        <label class="text-zinc-600 dark:text-zinc-300 font-medium">SGST (%)</label>
-        <input type="number" id="sgst"
-          class="mt-2 w-full rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 px-4 py-2.5 text-zinc-800 dark:text-white focus:outline-none" placeholder="0" />
-      </div>
 
       <div>
         <label class="text-zinc-600 dark:text-zinc-300 font-medium">Discount (₹)</label>
@@ -207,11 +196,12 @@
   <script src="loading.js"></script>
 
   <script type="module" >
-      lucide.createIcons();
      showLoading()
      await  fetchRetailerData()
      await fetchProductData()
      hideLoading() 
+      lucide.createIcons();
+    
 
       
     let allProducts = JSON.parse(localStorage.getItem("products"));
@@ -587,8 +577,7 @@ document.getElementById("submit").addEventListener("click", async () => {
   let retailerGSTNumber= GSTNumber.value
   let retaileraddress =address.value
   let paymentMethod= PaymentMethod.value
-  let Cgst = document.getElementById("cgst").value
-  let Sgst= document.getElementById("sgst").value
+ 
   let subTotal = document.getElementById("subTotal").value
   let FinalTotal =document.getElementById("total-amount").value
   let round = document.getElementById("roundOff").value
@@ -667,8 +656,7 @@ if(FinalTotal == "NaN"){
     paymentMethod:paymentMethod,  
     items:newArray,
     SubTotal:subTotal,
-    Cgst:Cgst,
-    Sgst:Sgst,
+    
     roundOff:round,
     TotalAmount:FinalTotal,
   }
@@ -719,11 +707,8 @@ function doSubTotal(){
     }else{
         let productAmount = parseInt(document.getElementById(`${item}-ammount`).value)
                 SubTotalAmount=SubTotalAmount+productAmount
-    let cgst = 0.01*SubTotalAmount
-    let sgst =0.01*SubTotalAmount
-    TotalAmount=SubTotalAmount+cgst+sgst 
-    document.getElementById("cgst").value=cgst
-    document.getElementById("sgst").value=sgst
+   
+    TotalAmount=SubTotalAmount 
      document.getElementById("subTotal").value=SubTotalAmount
      let x=((Math.round(TotalAmount)-(TotalAmount)))
      let roundOff = x.toFixed(2)
