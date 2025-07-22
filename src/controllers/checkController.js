@@ -195,11 +195,15 @@ const productDetailChanges = asyncHandler(async (req, res) => {
     const name = req.body.name
     const mrp = req.body.mrp
     const price = req.body.price
+    
+    const landing = req.body.landing3
+    console.log(landing)
 
     const d = await Product.findOneAndUpdate({ _id: id }, {
         productName: name,
         MRP: mrp,
-        PRICE: price
+        PRICE: price,
+        landing : landing
     })
     let f = await Product.findOne({ _id: id })
     console.log(f)

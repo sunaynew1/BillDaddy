@@ -141,15 +141,16 @@
   </script>
 </body>
 
-
+<script src="loading.js"></script>
 
 <!-- Lucide Icons -->
 <script>
   lucide.createIcons();
+  
   fetchProductData()
   let allProducts = JSON.parse(localStorage.getItem("products"));
   console.log(allProducts)
-
+ 
   // document.getElementById("NewProductAddBtn").addEventListener("click",async () => {
   //   const name = document.getElementById("NewProductName").value
   //   const mrp = document.getElementById("NewProductMRP").value
@@ -282,7 +283,7 @@
 
             debounceTimer1 = setTimeout(() => {
               if (value != "") {
-                productDetailChanges(match._id, value, match.MRP, match.PRICE)
+                productDetailChanges(match._id, value, match.MRP, match.PRICE,match.landing)
               }
             }, 1500)
           })
@@ -294,7 +295,7 @@
 
             debounceTimer2 = setTimeout(() => {
               if (value != "") {
-                productDetailChanges(match._id, match.productName, value, match.PRICE)
+                productDetailChanges(match._id, match.productName, value, match.PRICE,match.landing)
               }
             }, 1500)
           })
@@ -306,7 +307,7 @@
 
             debounceTimer3 = setTimeout(async () => {
               if (value != "") {
-                await productDetailChanges(match._id, match.productName, match.MRP, value)
+                await productDetailChanges(match._id, match.productName, match.MRP, value,match.landing)
 
               }
             }, 1500)
@@ -315,12 +316,12 @@
              document.getElementById(`${match._id}-landing`).addEventListener("input", (e) => {
 
             let value = e.target.value.trim()
-            match.PRICE = value
+            match.landing = value
             clearTimeout(debounceTimer4)
 
             debounceTimer4 = setTimeout(async () => {
               if (value != "") {
-                await productDetailChanges(match._id, match.productName, match.landing, value)
+                await productDetailChanges(match._id, match.productName, match.MRP,match.PRICE,value)
 
               }
             }, 1500)
@@ -440,7 +441,8 @@
     }
   }
 
-  async function productDetailChanges(id, name, mrp, price) {
+  async function productDetailChanges(id, name, mrp, price,landing) {
+   showLoading()
     console.log(id, name, mrp, price)
     try {
       const req = await fetch("https://billdaddy-production.up.railway.app/api/v1/users/productDetailChanges", {
@@ -448,19 +450,22 @@
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id, name, mrp, price })
+        body: JSON.stringify({ id, name, mrp, price ,landing})
 
       })
 
       const data = await req.json()
       if (data.message == "success") {
+       
         console.log(data)
         await localStorage.removeItem("products");
         await fetchProductData()
+        hideLoading()
         allProducts = await JSON.parse(localStorage.getItem("products"));
        await showToast("success", "Successfully updated Changes");
 
       } else {
+      hideLoading()
       await  showToast("error", "Request failed: " + data.message);
       }
 
