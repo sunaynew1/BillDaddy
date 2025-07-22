@@ -179,7 +179,7 @@
     </div>
   </td>
    <td class="px-4 py-3">
-    <input type="number" placeholder="Landing" id='${item._id}-mrp' value='${item.landing}'
+    <input type="number" placeholder="Landing" id='${item._id}-landing' value='${item.landing}'
       class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   </td>
 
@@ -194,15 +194,15 @@
   </td>
 
  <td class="px-4 py-3">
-    <input type="number" placeholder="Price" id='${item._id}-price' value='${item.TotalPurchased}' disabled
+    <input type="number" placeholder="Price" id='${item._id}-totalPurchased' value='${item.TotalPurchased}' disabled
       class="w-full rounded-lg text-wrap bg-zinc-800 border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   </td>
    <td class="px-4 py-3">
-    <input type="number" placeholder="Price" id='${item._id}-price' value='${item.TotalSold}' disabled
+    <input type="number" placeholder="Price" id='${item._id}-totalSold' value='${item.TotalSold}' disabled
       class="w-full rounded-lg bg-zinc-800 text-wrap border border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   </td>
    <td class="px-4 py-3">
-    <input type="number" placeholder="Price" id='${item._id}-price' value='${item.CurrentStock}' disabled
+    <input type="number" placeholder="Price" id='${item._id}-currentStock' value='${item.CurrentStock}' disabled
       class="w-full rounded-lg bg-zinc-800 border text-wrap border-zinc-700 px-3 py-2.5 text-white focus:ring-2 focus:ring-[#B6F500] focus:outline-none transition" />
   
   <!-- Remove Button -->
@@ -273,6 +273,7 @@
           let debounceTimer1
           let debounceTimer2
           let debounceTimer3
+          let debounceTimer4
           document.getElementById(`${match._id}-name`).addEventListener("input", (e) => {
 
             let value = e.target.value.trim()
@@ -306,6 +307,20 @@
             debounceTimer3 = setTimeout(async () => {
               if (value != "") {
                 await productDetailChanges(match._id, match.productName, match.MRP, value)
+
+              }
+            }, 1500)
+          })
+
+             document.getElementById(`${match._id}-landing`).addEventListener("input", (e) => {
+
+            let value = e.target.value.trim()
+            match.PRICE = value
+            clearTimeout(debounceTimer4)
+
+            debounceTimer4 = setTimeout(async () => {
+              if (value != "") {
+                await productDetailChanges(match._id, match.productName, match.landing, value)
 
               }
             }, 1500)
