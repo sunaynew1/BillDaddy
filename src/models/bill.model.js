@@ -56,12 +56,6 @@ const billSchema = new Schema({
     subTotal:{
         type:Number
     },
-    Cgst:{
-        type:Number
-    },
-    Sgst:{
-        type:Number
-    },
     roundOff:{
          type:Number
     },

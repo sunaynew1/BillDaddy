@@ -29,6 +29,10 @@ const productSchema = new Schema({
         type:Number,
         default:0
     },
+    landing:{
+        type:Number,
+        default:0
+    },
     CurrentStock:{
         type:Number,
         default:0

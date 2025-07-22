@@ -16,6 +16,7 @@ const fetchProductData = asyncHandler(async (req, res) => {
 const newProduct = asyncHandler(async (req, res) => {
     // const _id = await Product.countDocuments() + 1
     const productName = req.body.name
+    const landing = req.body.landing
     const MRP = req.body.mrp
     const PRICE = req.body.price
     const TotalPurchased=req.body.newStockNumber
@@ -25,6 +26,7 @@ const newProduct = asyncHandler(async (req, res) => {
         productName,
         MRP,
         PRICE,
+        landing,
         TotalPurchased,
         CurrentStock
     })
@@ -212,7 +214,7 @@ const sendBillOnWhatsApp = asyncHandler(async (req, res) => {
         const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER
         console.log(accessToken, phoneNumberId)
         console.log(phoneNumberId)
-        const customerPhoneNumber = ["+91 8619804776"]
+        const customerPhoneNumber = ["+91 9799300333"]
 
         const mediaForm = new FormData()
 
