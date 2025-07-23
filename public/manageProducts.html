@@ -145,6 +145,7 @@
 
 <!-- Lucide Icons -->
 <script>
+  
   lucide.createIcons();
   
   fetchProductData()
@@ -416,6 +417,7 @@
   }
 
   async function fetchProductData() {
+    showLoading()
     try {
       const req = await fetch("https://billdaddy-production.up.railway.app/api/v1/users/fetchProductData", {
         method: "GET"
@@ -427,13 +429,18 @@
         const d = data.data
         d.sort((a, b) => {
           return a.productName.localeCompare(b.productName);
+          
         });
         // console.log(d)
 
         localStorage.setItem("products", JSON.stringify(d));
+        hideLoading()
         await showToast("success", "Successfully fetched Data");
+
         return data;
+
       } else {
+        hideLoading()
       await  showToast("error", "Request failed: " + data.message);
       }
 
